@@ -18,8 +18,9 @@ dnl along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.59)dnl
-AC_INIT(main.c)
+AC_PREREQ([2.59])dnl
+AC_INIT([gdb], [7.4.1], [http://www.gnu.org/software/gdb/bugs/])
+AC_CONFIG_SRCDIR([main.c])
 AC_CONFIG_HEADER(config.h:config.in)
 AM_MAINTAINER_MODE
 
@@ -27,9 +28,16 @@ AC_PROG_CC
 AC_USE_SYSTEM_EXTENSIONS
 gl_EARLY
 ACX_LARGEFILE
-AM_PROG_CC_STDC
+AM_PROG_CC_C_O
+AC_PROG_INSTALL
+AC_PROG_CXX
+AC_PROG_RANLIB
+AC_PROG_YACC
+AM_PROG_LEX
 
-AC_CONFIG_AUX_DIR(..)
+AC_CONFIG_AUX_DIR([..])
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 
 # Dependency checking.
@@ -37,7 +45,7 @@ ZW_CREATE_DEPDIR
 ZW_PROG_COMPILER_DEPENDENCIES([CC])
 
 # Check for the 'make' the user wants to use.
-AC_CHECK_PROGS(MAKE, make)
+AC_CHECK_PROGS([MAKE], [make])
 MAKE_IS_GNU=
 case "`$MAKE --version 2>&1 | sed 1q`" in
   *GNU*)
@@ -61,6 +69,7 @@ CONFIG_UNINSTALL=
 
 dnl Set up for gettext.
 ZW_GNU_GETTEXT_SISTER_DIR
+AM_GNU_GETTEXT([external])
 
 localedir='${datadir}/locale'
 AC_SUBST(localedir)
@@ -321,22 +330,22 @@ case $host_os in
 esac
 
 # Libunwind support.
-AC_ARG_WITH(libunwind,
-AS_HELP_STRING([--with-libunwind], [use libunwind frame unwinding support]),
-[case "${withval}" in
-  yes)  enable_libunwind=yes ;;
-  no)   enable_libunwind=no ;;
-  *)    AC_MSG_ERROR(bad value ${withval} for GDB with-libunwind option) ;;
-esac],[
-  AC_CHECK_HEADERS(libunwind.h libunwind-ia64.h)
-  if test x"$ac_cv_header_libunwind_h" = xyes -a x"$ac_cv_header_libunwind_ia64_h" = xyes; then
-    enable_libunwind=yes;
-  fi
-])
+AC_ARG_WITH([libunwind],
+  [AS_HELP_STRING([--with-libunwind], [use libunwind frame unwinding support])],
+  [case "${withval}" in
+    yes)  enable_libunwind=yes ;;
+    no)   enable_libunwind=no ;;
+    *)    AC_MSG_ERROR(bad value ${withval} for GDB with-libunwind option) ;;
+  esac],[
+    AC_CHECK_HEADERS([libunwind.h libunwind-ia64.h])
+    if test x"$ac_cv_header_libunwind_h" = xyes -a x"$ac_cv_header_libunwind_ia64_h" = xyes; then
+      enable_libunwind=yes;
+    fi
+  ])
    
 if test x"$enable_libunwind" = xyes; then
-  AC_CHECK_HEADERS(libunwind.h libunwind-ia64.h)
-  AC_DEFINE(HAVE_LIBUNWIND, 1, [Define if libunwind library is being used.])
+  AC_CHECK_HEADERS([libunwind.h libunwind-ia64.h])
+  AC_DEFINE([HAVE_LIBUNWIND], [1], [Define if libunwind library is being used.])
   CONFIG_OBS="$CONFIG_OBS libunwind-frame.o"
   CONFIG_DEPS="$CONFIG_DEPS libunwind-frame.o"
   CONFIG_SRCS="$CONFIG_SRCS libunwind-frame.c"
@@ -444,7 +453,8 @@ AC_SEARCH_LIBS(gethostbyname, nsl)
 AC_SEARCH_LIBS(socketpair, socket)
 
 # Link in zlib if we can.  This allows us to read compressed debug sections.
-AM_ZLIB
+# AX_* macros require the autoconf-archive package
+AX_CHECK_ZLIB
 
 # On HP/UX we may need libxpdl for dlgetmodinfo (used by solib-pa64.c).
 AC_SEARCH_LIBS(dlgetmodinfo, [dl xpdl])
@@ -611,7 +621,7 @@ else
 fi
 
 AC_SUBST(TARGET_PTR)
-AC_CONFIG_FILES([jit-reader.h:jit-reader.in])
+AC_CONFIG_FILES([jit-reader.h:jit-reader.in po/Makefile.in])
 
 AC_SEARCH_LIBS(dlopen, dl)
 
@@ -651,6 +661,8 @@ dnl $2 = the shell variable to assign the result to
 dnl      If libpython is found we store $version here.
 dnl $3 = additional flags to add to CPPFLAGS
 dnl $4 = additional flags to add to LIBS
+
+AM_PATH_PYTHON
 
 AC_DEFUN([AC_TRY_LIBPYTHON],
 [
@@ -707,8 +719,8 @@ dnl
 dnl If a python program is specified, it is used to run python-config.py and
 dnl is passed --ldflags, --includes, --exec-prefix.
 
-AC_ARG_WITH(python,
-  AS_HELP_STRING([--with-python@<:@=PYTHON@:>@], [include python support (auto/yes/no/<python-program>)]),
+AC_ARG_WITH([python],
+  [AS_HELP_STRING([--with-python@<:@=PYTHON@:>@], [include python support (auto/yes/no/<python-program>)])],
   [], [with_python=auto])
 AC_MSG_CHECKING([whether to use python])
 AC_MSG_RESULT([$with_python])
@@ -971,7 +983,20 @@ AC_CHECK_HEADERS([nlist.h machine/reg.h poll.h sys/poll.h proc_service.h \
 		  sys/types.h sys/wait.h wait.h termios.h termio.h \
 		  sgtty.h unistd.h elf_hp.h ctype.h time.h locale.h \
 		  dlfcn.h])
-AC_CHECK_HEADERS(link.h, [], [],
+AC_CHECK_HEADERS([arpa/inet.h])
+AC_CHECK_HEADERS([fcntl.h])
+AC_CHECK_HEADERS([langinfo.h])
+AC_CHECK_HEADERS([libintl.h])
+AC_CHECK_HEADERS([limits.h])
+AC_CHECK_HEADERS([netdb.h])
+AC_CHECK_HEADERS([netinet/in.h])
+AC_CHECK_HEADERS([paths.h])
+AC_CHECK_HEADERS([sys/socket.h])
+AC_CHECK_HEADERS([sys/time.h])
+AC_CHECK_HEADERS([utmp.h])
+AC_CHECK_HEADERS([wchar.h])
+AC_CHECK_HEADERS([wctype.h])
+AC_CHECK_HEADERS([link.h], [], [],
 [#if HAVE_SYS_TYPES_H
 # include <sys/types.h>
 #endif
@@ -979,12 +1004,12 @@ AC_CHECK_HEADERS(link.h, [], [],
 # include <nlist.h>
 #endif
 ])
-AC_CHECK_HEADERS(sys/proc.h, [], [],
+AC_CHECK_HEADERS([sys/proc.h], [], [],
 [#if HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
 ])
-AC_CHECK_HEADERS(sys/user.h, [], [],
+AC_CHECK_HEADERS([sys/user.h], [], [],
 [#if HAVE_SYS_PARAM_H
 # include <sys/param.h>
 #endif
@@ -1001,8 +1026,8 @@ case $host_os in
    Solaris 2.[789] when using GCC. ])
     fi ;;
 esac
-AC_CHECK_HEADERS(curses.h cursesX.h ncurses.h ncurses/ncurses.h ncurses/term.h)
-AC_CHECK_HEADERS(term.h, [], [],
+AC_CHECK_HEADERS([curses.h cursesX.h ncurses.h ncurses/ncurses.h ncurses/term.h])
+AC_CHECK_HEADERS([term.h], [], [],
 [#if HAVE_CURSES_H
 # include <curses.h>
 #endif
@@ -1014,13 +1039,16 @@ AC_CHECK_HEADERS(term.h, [], [],
 
 AC_CHECK_DECLS([free, malloc, realloc, strerror, strstr, getopt,
                 snprintf, vsnprintf])
-AM_LC_MESSAGES
+# gt_* macros require gettext
+gt_LC_MESSAGES
 
 # ----------------------- #
 # Checks for structures.  #
 # ----------------------- #
 
 AC_CHECK_MEMBERS([struct stat.st_blocks, struct stat.st_blksize])
+AC_STRUCT_ST_BLOCKS
+AC_CHECK_MEMBERS([struct stat.st_rdev])
 
 # ------------------ #
 # Checks for types.  #
@@ -1031,11 +1059,28 @@ AC_CHECK_TYPES(socklen_t, [], [],
 [#include <sys/types.h>
 #include <sys/socket.h>
 ])
+AC_TYPE_UID_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
+AC_TYPE_UINT8_T
+AC_CHECK_TYPES([ptrdiff_t])
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
+AC_TYPE_INT8_T
+AC_TYPE_MODE_T
+AC_FUNC_OBSTACK
+AC_TYPE_OFF_T
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
 
 # ------------------------------------- #
 # Checks for compiler characteristics.  #
 # ------------------------------------- #
 
+AC_CHECK_HEADER_STDBOOL
 AC_C_CONST
 AC_C_INLINE
 AC_C_BIGENDIAN
@@ -1045,13 +1090,45 @@ AC_C_BIGENDIAN
 # ------------------------------ #
 
 AC_FUNC_ALLOCA
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_FORK
+AC_FUNC_MALLOC
 AC_FUNC_MMAP
+AC_FUNC_REALLOC
+AC_FUNC_STRTOD
 AC_FUNC_VFORK
 AC_CHECK_FUNCS([canonicalize_file_name realpath getrusage getuid \
 		getgid pipe poll pread64 resize_term sbrk setpgid setpgrp setsid \
 		sigaction sigprocmask sigsetmask socketpair syscall \
 		ttrace wborder wresize setlocale iconvlist libiconvlist btowc \
 		setrlimit getrlimit posix_madvise waitpid])
+AC_CHECK_FUNCS([atexit])
+AC_CHECK_FUNCS([dup2])
+AC_CHECK_FUNCS([getcwd])
+AC_CHECK_FUNCS([gethostbyname])
+AC_CHECK_FUNCS([gettimeofday])
+AC_CHECK_FUNCS([isascii])
+AC_CHECK_FUNCS([memchr])
+AC_CHECK_FUNCS([memmove])
+AC_CHECK_FUNCS([memset])
+AC_CHECK_FUNCS([munmap])
+AC_CHECK_FUNCS([nl_langinfo])
+AC_CHECK_FUNCS([pathconf])
+AC_CHECK_FUNCS([pow])
+AC_CHECK_FUNCS([re_comp])
+AC_CHECK_FUNCS([regcomp])
+AC_CHECK_FUNCS([select])
+AC_CHECK_FUNCS([socket])
+AC_CHECK_FUNCS([strcasecmp])
+AC_CHECK_FUNCS([strchr])
+AC_CHECK_FUNCS([strcspn])
+AC_CHECK_FUNCS([strerror])
+AC_CHECK_FUNCS([strncasecmp])
+AC_CHECK_FUNCS([strpbrk])
+AC_CHECK_FUNCS([strrchr])
+AC_CHECK_FUNCS([strstr])
+AC_CHECK_FUNCS([strtol])
+AC_CHECK_FUNCS([strtoul])
 AM_LANGINFO_CODESET
 
 # Check the return and argument types of ptrace.  No canned test for

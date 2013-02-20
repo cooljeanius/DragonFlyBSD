@@ -17,7 +17,7 @@ top_srcdir = ..
 top_builddir = ..
 
 
-ifeq ("", "yes")
+ifeq ("no", "yes")
 FSADMMAN = fsadm.8
 else
 FSADMMAN =
@@ -63,14 +63,14 @@ install_lvm2:
 	@for f in $(MAN8); \
 	do \
 	   $(RM) $(MAN8DIR)/$$f; \
-	   /usr/bin/install -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN8DIR)/$$f; \
+	   /opt/local/bin/ginstall -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN8DIR)/$$f; \
 	done
 
 	@echo "Installing $(MAN5) in $(MAN5DIR)"
 	@for f in $(MAN5); \
 	do \
 	   $(RM) $(MAN5DIR)/$$f; \
-	   /usr/bin/install -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN5DIR)/$$f; \
+	   /opt/local/bin/ginstall -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN5DIR)/$$f; \
 	done
 
 install_cluster:
@@ -78,7 +78,7 @@ install_cluster:
 	@for f in $(MAN8CLUSTER); \
 	do \
 	   $(RM) $(MAN8DIR)/$$f; \
-	   /usr/bin/install -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN8DIR)/$$f; \
+	   /opt/local/bin/ginstall -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN8DIR)/$$f; \
 	done
 
 install_device-mapper:
@@ -86,7 +86,7 @@ install_device-mapper:
 	@for f in $(MAN8DM); \
 	do \
 	   $(RM) $(MAN8DIR)/$$f; \
-	   /usr/bin/install -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN8DIR)/$$f; \
+	   /opt/local/bin/ginstall -c -D $(OWNER) $(GROUP) -m 444 $$f $(MAN8DIR)/$$f; \
 	done
 
 install: install_lvm2 install_device-mapper

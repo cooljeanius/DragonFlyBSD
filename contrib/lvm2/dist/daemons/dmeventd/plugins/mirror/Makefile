@@ -22,7 +22,7 @@ CLDFLAGS += -L${top_builddir}/tools
 
 SOURCES = dmeventd_mirror.c
 
-ifeq ("","dylib")
+ifeq ("dylib","dylib")
   LIB_SHARED = libdevmapper-event-lvm2mirror.dylib
 else
   LIB_SHARED = libdevmapper-event-lvm2mirror.so

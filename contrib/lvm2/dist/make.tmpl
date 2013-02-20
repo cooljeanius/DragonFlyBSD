@@ -20,25 +20,25 @@ SHELL = /bin/sh
 CC = gcc
 RANLIB = ranlib
 SHELL = /bin/sh
-INSTALL = /usr/bin/install -c
-MKDIR_P = autoconf/install-sh -c -d
+INSTALL = /opt/local/bin/ginstall -c
+MKDIR_P = /opt/local/bin/gmkdir -p
 MSGFMT = 
 LCOV = 
 GENHTML = 
 LN_S = ln -s
-SED = /usr/bin/sed
+SED = /opt/local/bin/gsed
 
-LIBS = 
+LIBS = -lreadline -ldl -lncurses 
 DEFS += -DHAVE_CONFIG_H
-CFLAGS += -g -O2
+CFLAGS +=  -no-cpp-precomp -fno-common
 CLDFLAGS += 
 LDDEPS += 
 LDFLAGS += 
-LIB_SUFFIX = 
+LIB_SUFFIX = dylib
 
 # Setup directory variables
-prefix = /usr
-exec_prefix = 
+prefix = /usr/local
+exec_prefix = ${prefix}
 udev_prefix = ${exec_prefix}
 bindir = $(DESTDIR)${exec_prefix}/bin
 confdir = $(DESTDIR)/etc/lvm
@@ -73,7 +73,7 @@ CFLAGS += -fPIC -Wall -Wundef -Wshadow -Wcast-align -Wwrite-strings -Wmissing-pr
 #CFLAGS += -W -Wconversion -Wpointer-arith -Wredundant-decls -Wbad-function-cast -Wcast-qual
 #CFLAGS += -pedantic -std=gnu99
 
-CFLAGS += 
+CFLAGS += -O2
 
 ifeq ("no", "yes")
   CFLAGS += -g -fno-omit-frame-pointer
@@ -97,7 +97,7 @@ ifeq ("no", "yes")
   DEFS += -DDM_COMPAT
 endif
 
-ifeq ("", "yes")
+ifeq ("no", "yes")
   DEFS += -DDM_IOCTLS
 endif
 
@@ -206,13 +206,13 @@ $(TARGETS): $(OBJECTS)
 %.so: %.o
 	$(CC) -c $(INCLUDES) $(DEFS) $(CFLAGS) $(CLDFLAGS) $< $(LIBS) -o $@
 
-ifeq ("","so")
+ifeq ("dylib","so")
 $(LIB_SHARED): $(OBJECTS) $(LDDEPS)
 	$(CC) -shared -Wl,-soname,$(notdir $@).$(LIB_VERSION) \
 	$(CFLAGS) $(CLDFLAGS) $(OBJECTS) $(LIBS) -o $@
 endif
 
-ifeq ("","dylib")
+ifeq ("dylib","dylib")
 $(LIB_SHARED): $(OBJECTS) $(LDDEPS)
 	$(CC) -dynamiclib -dylib_current_version,$(LIB_VERSION) \
 	$(CFLAGS) $(CLDFLAGS) $(OBJECTS) $(LIBS) -o $@
@@ -221,7 +221,7 @@ endif
 %.so: %.a
 	$(CC) -shared -Wl,-soname,$(notdir $@).$(LIB_VERSION) \
 	$(CFLAGS) $(CLDFLAGS) $(LIBS) -o $@ \
-	 $< 
+	-all_load $< 
 
 $(LIB_STATIC): $(OBJECTS)
 	$(RM) $@

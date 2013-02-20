@@ -35,7 +35,7 @@ endif
 
 LIB_VERSION = $(LIB_VERSION_DM)
 
-ifeq ("","dylib")
+ifeq ("dylib","dylib")
   LIB_SHARED = libdevmapper-event.dylib
 else
   LIB_SHARED = libdevmapper-event.so

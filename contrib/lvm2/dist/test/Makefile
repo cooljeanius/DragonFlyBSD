@@ -20,10 +20,10 @@ subdir := $(shell pwd|sed 's,.*/,,')
 srcdir = .
 top_srcdir = ..
 top_builddir = ..
-abs_srcdir = /home/haad/src/LVM2.2.02.56/test
-abs_builddir = /home/haad/src/LVM2.2.02.56/test
-abs_top_builddir = /home/haad/src/LVM2.2.02.56
-abs_top_srcdir = /home/haad/src/LVM2.2.02.56
+abs_srcdir = /private/var/root/DragonFlyBSD/contrib/lvm2/dist/test
+abs_builddir = /private/var/root/DragonFlyBSD/contrib/lvm2/dist/test
+abs_top_builddir = /private/var/root/DragonFlyBSD/contrib/lvm2/dist
+abs_top_srcdir = /private/var/root/DragonFlyBSD/contrib/lvm2/dist
 
 all: init.sh
 	./bin/harness t-*.sh

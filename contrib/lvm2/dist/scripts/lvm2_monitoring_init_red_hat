@@ -33,7 +33,7 @@
 
 DAEMON=lvm2_monitor
 
-exec_prefix=
+exec_prefix=${prefix}
 sbindir=${exec_prefix}/sbin
 
 VGCHANGE=${sbindir}/vgchange

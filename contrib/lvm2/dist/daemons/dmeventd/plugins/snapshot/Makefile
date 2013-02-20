@@ -22,7 +22,7 @@ CLDFLAGS += -L${top_builddir}/tools
 
 SOURCES = dmeventd_snapshot.c
 
-ifeq ("","dylib")
+ifeq ("dylib","dylib")
   LIB_SHARED = libdevmapper-event-lvm2snapshot.dylib
 else
   LIB_SHARED = libdevmapper-event-lvm2snapshot.so

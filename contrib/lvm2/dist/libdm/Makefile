@@ -39,7 +39,7 @@ ifeq ("no", "yes")
 LIB_STATIC = $(interface)/libdevmapper.a
 endif
 
-ifeq ("","dylib")
+ifeq ("dylib","dylib")
   LIB_SHARED = $(interface)/libdevmapper.dylib
 else
   LIB_SHARED = $(interface)/libdevmapper.so

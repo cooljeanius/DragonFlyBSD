@@ -24,7 +24,7 @@ include ../make.tmpl
 install_lvm2: $(CONFSRC)
 	@if [ ! -e $(confdir)/$(CONFDEST) ]; then \
 		echo "Installing $(CONFSRC) as $(confdir)/$(CONFDEST)"; \
-		/usr/bin/install -c -D $(OWNER) $(GROUP) -m 644 $< \
+		/opt/local/bin/ginstall -c -D $(OWNER) $(GROUP) -m 644 $< \
 			$(confdir)/$(CONFDEST); \
 	fi
 

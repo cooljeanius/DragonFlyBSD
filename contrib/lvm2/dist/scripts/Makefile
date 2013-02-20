@@ -23,7 +23,7 @@ install:
 		$(sbindir)/lvmdump
 	$(INSTALL) -D $(OWNER) $(GROUP) -m 555 $(srcdir)/vgimportclone.sh \
 		$(sbindir)/vgimportclone
-ifeq ("", "yes")
+ifeq ("no", "yes")
 	$(INSTALL) -D $(OWNER) $(GROUP) -m 555 $(srcdir)/fsadm.sh \
 		$(sbindir)/fsadm
 endif

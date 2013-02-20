@@ -1,5 +1,3 @@
-/*	$NetBSD: configure.h,v 1.1.1.1 2009/12/02 00:26:43 haad Exp $	*/
-
 /* lib/misc/configure.h.  Generated from configure.h.in by configure.  */
 /* lib/misc/configure.h.in.  Generated from configure.in by autoheader.  */
 
@@ -43,7 +41,7 @@
 
 /* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
    */
-/* #undef HAVE_ALLOCA_H */
+#define HAVE_ALLOCA_H 1
 
 /* Define to 1 if you have the <asm/byteorder.h> header file. */
 /* #undef HAVE_ASM_BYTEORDER_H */
@@ -67,7 +65,7 @@
 #define HAVE_DIRENT_H 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-/* #undef HAVE_DLFCN_H */
+#define HAVE_DLFCN_H 1
 
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
 /* #undef HAVE_DOPRNT */
@@ -88,7 +86,7 @@
 #define HAVE_GETHOSTNAME 1
 
 /* Define to 1 if getline is available. */
-/* #undef HAVE_GETLINE */
+#define HAVE_GETLINE 1
 
 /* Define to 1 if you have the `getmntent' function. */
 /* #undef HAVE_GETMNTENT */
@@ -109,7 +107,7 @@
 /* #undef HAVE_LIBCMAN_H */
 
 /* Define to 1 if dynamic libraries are available. */
-/* #undef HAVE_LIBDL */
+#define HAVE_LIBDL 1
 
 /* Define to 1 if you have the <libdlm.h> header file. */
 /* #undef HAVE_LIBDLM_H */
@@ -124,7 +122,7 @@
 /* #undef HAVE_LIBINTL_H */
 
 /* Define to 1 if you have the `readline' library (-lreadline). */
-/* #undef HAVE_LIBREADLINE */
+#define HAVE_LIBREADLINE 1
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
@@ -140,7 +138,7 @@
 /* #undef HAVE_LSTAT_EMPTY_STRING_BUG */
 
 /* Define to 1 if you have the <machine/endian.h> header file. */
-/* #undef HAVE_MACHINE_ENDIAN_H */
+#define HAVE_MACHINE_ENDIAN_H 1
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
@@ -192,7 +190,7 @@
 /* #undef HAVE_REALTIME */
 
 /* Define to 1 if you have the `rl_completion_matches' function. */
-/* #undef HAVE_RL_COMPLETION_MATCHES */
+#define HAVE_RL_COMPLETION_MATCHES 1
 
 /* Define to 1 if you have the `rmdir' function. */
 #define HAVE_RMDIR 1
@@ -287,7 +285,7 @@
 /* #undef HAVE_SYS_DIR_H */
 
 /* Define to 1 if you have the <sys/disk.h> header file. */
-/* #undef HAVE_SYS_DISK_H */
+#define HAVE_SYS_DISK_H 1
 
 /* Define to 1 if you have the <sys/file.h> header file. */
 #define HAVE_SYS_FILE_H 1
@@ -383,14 +381,14 @@
 
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
-#define LSTAT_FOLLOWS_SLASHED_SYMLINK 1
+/* #undef LSTAT_FOLLOWS_SLASHED_SYMLINK */
 
 /* Define to 1 if 'lvm' should fall back to using LVM1 binaries if
    device-mapper is missing from the kernel */
 /* #undef LVM1_FALLBACK */
 
 /* Define to 1 to include built-in support for LVM1 metadata. */
-/* #undef LVM1_INTERNAL */
+#define LVM1_INTERNAL 1
 
 /* Define to 1 to include built-in support for mirrors. */
 #define MIRRORED_INTERNAL 1
@@ -399,7 +397,7 @@
 /* #undef MODPROBE_CMD */
 
 /* Define to 1 to enable O_DIRECT support. */
-#define O_DIRECT_SUPPORT 1
+/* #undef O_DIRECT_SUPPORT */
 
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT ""
@@ -420,7 +418,7 @@
 #define POOL_INTERNAL 1
 
 /* Define to 1 to include the LVM readline shell. */
-/* #undef READLINE_SUPPORT */
+#define READLINE_SUPPORT 1
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void

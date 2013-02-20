@@ -1,5 +1,3 @@
-/*	$NetBSD: lvm-version.h,v 1.1.1.1 2009/12/02 00:26:44 haad Exp $	*/
-
 /*
  * Copyright (C) 2001-2004 Sistina Software, Inc. All rights reserved.  
  * Copyright (C) 2004-2009 Red Hat, Inc. All rights reserved.

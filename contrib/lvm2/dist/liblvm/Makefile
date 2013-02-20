@@ -31,7 +31,7 @@ ifeq ("no", "yes")
   LIB_STATIC = $(LIB_NAME).a
 endif
 
-ifeq ("","dylib")
+ifeq ("dylib","dylib")
   LIB_SHARED = $(LIB_NAME).dylib
 else
   LIB_SHARED = $(LIB_NAME).so

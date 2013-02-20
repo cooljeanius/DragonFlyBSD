@@ -17,7 +17,7 @@ top_srcdir = ..
 top_builddir = ..
 
 
-ifeq ("none", "shared")
+ifeq ("internal", "shared")
   SUBDIRS = format1
 endif
 
@@ -95,7 +95,7 @@ ifeq ("", "yes")
 	misc/timestamp.c
 endif
 
-ifeq ("none", "internal")
+ifeq ("internal", "internal")
   SOURCES +=\
 	format1/disk-rep.c \
 	format1/format1.c \
@@ -136,7 +136,7 @@ ifeq ("yes", "yes")
 	activate/fs.c
 endif
 
-ifeq ("no", "yes")
+ifeq ("yes", "yes")
   SOURCES +=\
 	locking/external_locking.c \
 	misc/sharedlib.c
