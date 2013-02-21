@@ -28,7 +28,7 @@ GENHTML =
 LN_S = ln -s
 SED = /opt/local/bin/gsed
 
-LIBS = -lreadline -ldl -lncurses 
+LIBS = -lreadline -ldl -lncurses -lpthread -ldl 
 DEFS += -DHAVE_CONFIG_H
 CFLAGS +=  -no-cpp-precomp -fno-common
 CLDFLAGS += 
@@ -66,7 +66,7 @@ ifndef MAKEFLAGS
 MAKEFLAGS = 
 endif
 
-.SUFFIXES: .c .d .o .so .a .po .pot .mo .dylib
+SUFFIXES: .c .d .o .so .a .po .pot .mo .dylib
 
 CFLAGS += -fPIC -Wall -Wundef -Wshadow -Wcast-align -Wwrite-strings -Wmissing-prototypes -Wmissing-declarations -Wnested-externs -Winline -Wmissing-noreturn -Wformat-security
 
@@ -121,7 +121,7 @@ LIB_VERSION_DM := $(shell cat $(top_srcdir)/VERSION_DM | \
 LIB_VERSION_APP := $(shell cat $(top_srcdir)/VERSION | \
 		     awk -F '[(). ]' '{printf "%s.%s",$$1,$$4}')
 
-INCLUDES += -I. -I$(top_builddir)/include
+AM_CPPFLAGS += -I. -I$(top_builddir)/include
 
 INC_LNS = $(top_builddir)/include/.symlinks_created
 

@@ -1,41 +1,5 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
-
-/* Define to empty if the keyword does not work.  */
-#undef const
-
-/* Define if you have a working `mmap' system call.  */
-#undef HAVE_MMAP
-
-/* Define if your struct stat has st_blksize.  */
-#undef HAVE_ST_BLKSIZE
-
-/* Define if you have <vfork.h>.  */
-#undef HAVE_VFORK_H
-
-/* Define to `int' if <sys/types.h> doesn't define.  */
-#undef mode_t
-
-/* Define to `long' if <sys/types.h> doesn't define.  */
-#undef off_t
-
-/* Define to `int' if <sys/types.h> doesn't define.  */
-#undef pid_t
-
-/* Define to `unsigned' if <sys/types.h> doesn't define.  */
-#undef size_t
-
-/* Define if you have the ANSI C header files.  */
-#undef STDC_HEADERS
-
-/* Define if your <sys/time.h> declares struct tm.  */
-#undef TM_IN_SYS_TIME
-
-/* Define vfork as fork if vfork does not work.  */
-#undef vfork
-
-/* Define if your processor stores words with the most significant
-   byte first (like Motorola and SPARC, unlike Intel and VAX).  */
-#undef WORDS_BIGENDIAN
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+/* @(#)acconfig.h	8.18 (Berkeley) 7/2/96 */
 
 /* Define to `int' if <sys/types.h> doesn't define.  */
 #undef ssize_t
@@ -76,6 +40,9 @@
 /* Define if you have the curses(3) tigetstr/tigetnum functions. */
 #undef HAVE_CURSES_TIGETSTR
 
+/* Define if you have the DB __hash_open call in the C library. */
+#undef HAVE_DB_HASH_OPEN
+
 /* Define if you have the chsize(2) system call. */
 #undef HAVE_FTRUNCATE_CHSIZE
 
@@ -97,6 +64,9 @@
 /* Define if you have the Berkeley style revoke(2) system call. */
 #undef HAVE_REVOKE
 
+/* Define if you have the Berkeley style strsep(3) function. */
+#undef HAVE_STRSEP
+
 /* Define if you have <sys/mman.h> */
 #undef HAVE_SYS_MMAN_H
 
@@ -112,68 +82,183 @@
 /* Define if your sprintf returns a pointer, not a length. */
 #undef SPRINTF_RET_CHARPNT
 
-/* Define if you have the bsearch function.  */
+/* Define if building universal (internal helper macro) */
+#undef AC_APPLE_UNIVERSAL_BUILD
+
+/* Define to 1 if you have the `bsearch' function. */
 #undef HAVE_BSEARCH
 
-/* Define if you have the gethostname function.  */
+/* Define to 1 if you have the `fork' function. */
+#undef HAVE_FORK
+
+/* Define to 1 if you have the `gethostname' function. */
 #undef HAVE_GETHOSTNAME
 
-/* Define if you have the getopt function.  */
+/* Define to 1 if you have the `getopt' function. */
 #undef HAVE_GETOPT
 
-/* Define if you have the getpagesize function.  */
+/* Define to 1 if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
-/* Define if you have the memchr function.  */
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `memchr' function. */
 #undef HAVE_MEMCHR
 
-/* Define if you have the memcpy function.  */
+/* Define to 1 if you have the `memcpy' function. */
 #undef HAVE_MEMCPY
 
-/* Define if you have the memmove function.  */
+/* Define to 1 if you have the `memmove' function. */
 #undef HAVE_MEMMOVE
 
-/* Define if you have the memset function.  */
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `memset' function. */
 #undef HAVE_MEMSET
 
-/* Define if you have the mkstemp function.  */
+/* Define to 1 if you have the `mkstemp' function. */
 #undef HAVE_MKSTEMP
 
-/* Define if you have the mmap function.  */
+/* Define to 1 if you have a working `mmap' system call. */
 #undef HAVE_MMAP
 
-/* Define if you have the select function.  */
+/* Define to 1 if you have the `select' function. */
 #undef HAVE_SELECT
 
-/* Define if you have the setenv function.  */
+/* Define to 1 if you have the `setenv' function. */
 #undef HAVE_SETENV
 
-/* Define if you have the snprintf function.  */
+/* Define to 1 if you have the `snprintf' function. */
 #undef HAVE_SNPRINTF
 
-/* Define if you have the strdup function.  */
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP
 
-/* Define if you have the strerror function.  */
+/* Define to 1 if you have the `strerror' function. */
 #undef HAVE_STRERROR
 
-/* Define if you have the strpbrk function.  */
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strpbrk' function. */
 #undef HAVE_STRPBRK
 
-/* Define if you have the strsep function.  */
+/* Define to 1 if you have the `strsep' function. */
 #undef HAVE_STRSEP
 
-/* Define if you have the strtol function.  */
+/* Define to 1 if you have the `strtol' function. */
 #undef HAVE_STRTOL
 
-/* Define if you have the strtoul function.  */
+/* Define to 1 if you have the `strtoul' function. */
 #undef HAVE_STRTOUL
 
-/* Define if you have the unsetenv function.  */
+/* Define to 1 if `st_blksize' is a member of `struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_BLKSIZE
+
+/* Define to 1 if your `struct stat' has `st_blksize'. Deprecated, use
+   `HAVE_STRUCT_STAT_ST_BLKSIZE' instead. */
+#undef HAVE_ST_BLKSIZE
+
+/* Define to 1 if you have the <sys/param.h> header file. */
+#undef HAVE_SYS_PARAM_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `unsetenv' function. */
 #undef HAVE_UNSETENV
 
-/* Define if you have the valloc function.  */
-#undef HAVE_VALLOC
+/* Define to 1 if you have the `vfork' function. */
+#undef HAVE_VFORK
 
-/* Define if you have the vsnprintf function.  */
+/* Define to 1 if you have the <vfork.h> header file. */
+#undef HAVE_VFORK_H
+
+/* Define to 1 if you have the `vsnprintf' function. */
 #undef HAVE_VSNPRINTF
+
+/* Define to 1 if `fork' works. */
+#undef HAVE_WORKING_FORK
+
+/* Define to 1 if `vfork' works. */
+#undef HAVE_WORKING_VFORK
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+#undef TM_IN_SYS_TIME
+
+/* Version number of package */
+#undef VERSION
+
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#  undef WORDS_BIGENDIAN
+# endif
+#endif
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `int' if <sys/types.h> does not define. */
+#undef mode_t
+
+/* Define to `long int' if <sys/types.h> does not define. */
+#undef off_t
+
+/* Define to `int' if <sys/types.h> does not define. */
+#undef pid_t
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
+
+/* Define to `int' if <sys/types.h> does not define. */
+#undef ssize_t
+
+/* Define as `fork' if `vfork' does not work. */
+#undef vfork

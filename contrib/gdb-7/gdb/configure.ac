@@ -26,8 +26,8 @@ AM_MAINTAINER_MODE
 
 AC_PROG_CC
 AC_USE_SYSTEM_EXTENSIONS
-gl_EARLY
-ACX_LARGEFILE
+# gl_EARLY
+# ACX_LARGEFILE
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_CXX
@@ -41,8 +41,8 @@ AC_CANONICAL_TARGET
 AC_CANONICAL_SYSTEM
 
 # Dependency checking.
-ZW_CREATE_DEPDIR
-ZW_PROG_COMPILER_DEPENDENCIES([CC])
+# ZW_CREATE_DEPDIR
+# ZW_PROG_COMPILER_DEPENDENCIES([CC])
 
 # Check for the 'make' the user wants to use.
 AC_CHECK_PROGS([MAKE], [make])
@@ -68,7 +68,7 @@ CONFIG_INSTALL=
 CONFIG_UNINSTALL=
 
 dnl Set up for gettext.
-ZW_GNU_GETTEXT_SISTER_DIR
+# ZW_GNU_GETTEXT_SISTER_DIR
 AM_GNU_GETTEXT([external])
 
 localedir='${datadir}/locale'
@@ -81,7 +81,7 @@ if test x"$USE_NLS" = xyes; then
    CONFIG_UNINSTALL="$CONFIG_UNINSTALL uninstall-po"
 fi
 
-gl_INIT
+# gl_INIT
 
 # For Makefile dependencies.
 GNULIB_STDINT_H=
@@ -410,8 +410,8 @@ if test "$enable_profiling" = yes ; then
   CFLAGS="$OLD_CFLAGS"
 fi
 
-ACX_PKGVERSION([GDB])
-ACX_BUGURL([http://www.gnu.org/software/gdb/bugs/])
+# ACX_PKGVERSION([GDB])
+# ACX_BUGURL([http://www.gnu.org/software/gdb/bugs/])
 AC_DEFINE_UNQUOTED([PKGVERSION], ["$PKGVERSION"], [Additional package description])
 AC_DEFINE_UNQUOTED([REPORT_BUGS_TO], ["$REPORT_BUGS_TO"], [Bug reporting address])
 
@@ -1369,20 +1369,20 @@ if test "${target}" = "${host}"; then
 fi
 
 if test "$ac_cv_header_sys_procfs_h" = yes; then
-  BFD_HAVE_SYS_PROCFS_TYPE(pstatus_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prrun_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(gregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(fpregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prgregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prfpregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prgregset32_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prfpregset32_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(lwpid_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(psaddr_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prsysent_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(pr_sigset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(pr_sigaction64_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(pr_siginfo64_t)
+#  BFD_HAVE_SYS_PROCFS_TYPE([pstatus_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prrun_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([gregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([fpregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prgregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prfpregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prgregset32_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prfpregset32_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([lwpid_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([psaddr_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prsysent_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([pr_sigset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([pr_sigaction64_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([pr_siginfo64_t])
 
 
   dnl Check for broken prfpregset_t type
@@ -2045,14 +2045,14 @@ if test "${enable_gdbtk}" = "yes"; then
     GDBTK_SRC_DIR=`pwd`
     cd $here
 
-    SC_PATH_TCLCONFIG
+#    SC_PATH_TCLCONFIG
 
     # If $no_tk is nonempty, then we can't do Tk, and there is no
     # point to doing Tcl.
-    SC_PATH_TKCONFIG
+#    SC_PATH_TKCONFIG
 
     if test -z "${no_tcl}" -a -z "${no_tk}"; then
-	SC_LOAD_TCLCONFIG
+#	SC_LOAD_TCLCONFIG
 
         # Check for in-tree tcl
         here=`pwd`
@@ -2083,7 +2083,7 @@ if test "${enable_gdbtk}" = "yes"; then
 	AC_SUBST(TCL_LIBRARY)
         AC_SUBST(TCL_DEPS)
 
-	SC_LOAD_TKCONFIG
+#	SC_LOAD_TKCONFIG
 
         # Check for in-tree Tk
         intree="no"
@@ -2202,19 +2202,19 @@ if test "${host}" != "${target}"; then
 fi
 AC_SUBST(target_subdir)
 
-frags=
-if test "${gdb_native}" = "yes"; then
-  host_makefile_frag=${srcdir}/config/${gdb_host_cpu}/${gdb_host}.mh
-  if test ! -f ${host_makefile_frag}; then
-    AC_MSG_ERROR("*** Gdb does not support native target ${host}")
-  fi
-  frags="$frags $host_makefile_frag"
-else
-  host_makefile_frag=/dev/null
-fi
+#frags=
+#if test "${gdb_native}" = "yes"; then
+#  host_makefile_frag=${srcdir}/config/${gdb_host_cpu}/${gdb_host}.mh
+#  if test ! -f ${host_makefile_frag}; then
+#    AC_MSG_ERROR("*** Gdb does not support native target ${host}")
+#  fi
+#  frags="$frags $host_makefile_frag"
+#else
+#  host_makefile_frag=/dev/null
+#fi
 
-AC_SUBST_FILE(host_makefile_frag)
-AC_SUBST(frags)
+#AC_SUBST_FILE(host_makefile_frag)
+#AC_SUBST(frags)
 
 changequote(,)dnl
 if test "${gdb_native}" = "yes"; then
@@ -2298,7 +2298,7 @@ dnl  At the moment, we just assume it's UTF-8.
 AC_DEFINE(GDB_DEFAULT_HOST_CHARSET, "UTF-8",
           [Define to be a string naming the default host character set.])
 
-AC_OUTPUT(Makefile .gdbinit:gdbinit.in doc/Makefile gnulib/Makefile data-directory/Makefile,
+AC_OUTPUT(.gdbinit:gdbinit.in data-directory/Makefile,
 [
 case x$CONFIG_HEADERS in
 xconfig.h:config.in)

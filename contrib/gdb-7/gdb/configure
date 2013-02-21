@@ -624,12 +624,11 @@ ac_includes_default="\
 
 gt_needs=
 enable_option_checking=no
-ac_header_list=
+gl_header_list=
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 GDB_NM_FILE
-frags
 target_subdir
 CONFIG_UNINSTALL
 CONFIG_INSTALL
@@ -663,6 +662,7 @@ WIN32LIBS
 SER_HARDWIRE
 WERROR_CFLAGS
 WARN_CFLAGS
+SYSTEM_GDBINIT
 TARGET_SYSTEM_ROOT_DEFINE
 TARGET_SYSTEM_ROOT
 CONFIG_LDFLAGS
@@ -687,6 +687,7 @@ LIBEXPAT_PREFIX
 LTLIBEXPAT
 LIBEXPAT
 HAVE_LIBEXPAT
+JIT_READER_DIR
 TARGET_PTR
 READLINE_TEXI_INCFLAG
 READLINE_CFLAGS
@@ -699,6 +700,8 @@ AR
 LN_S
 TARGET_OBS
 subdirs
+GDB_DATADIR
+DEBUGDIR
 AM_BACKSLASH
 AM_DEFAULT_VERBOSITY
 AM_DEFAULT_V
@@ -834,7 +837,7 @@ PACKAGE_TARNAME
 PACKAGE_NAME
 PATH_SEPARATOR
 SHELL'
-ac_subst_files='host_makefile_frag'
+ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_maintainer_mode
@@ -845,6 +848,8 @@ with_libiconv_prefix
 with_libintl_prefix
 enable_dependency_tracking
 enable_silent_rules
+with_separate_debug_dir
+with_gdb_datadir
 with_relocated_sources
 enable_targets
 enable_64_bit_bfd
@@ -858,11 +863,13 @@ enable_profiling
 with_zlib
 with_iconv_bin
 with_system_readline
+with_jit_reader_dir
 with_expat
 with_libexpat_prefix
 with_python
 with_included_regex
 with_sysroot
+with_system_gdbinit
 enable_werror
 enable_build_warnings
 enable_gdb_build_warnings
@@ -1552,6 +1559,11 @@ Optional Packages:
   --without-libiconv-prefix     don't search for libiconv in includedir and libdir
   --with-libintl-prefix[=DIR]  search for libintl in DIR/include and DIR/lib
   --without-libintl-prefix     don't search for libintl in includedir and libdir
+  --with-separate-debug-dir=PATH
+                          look for global separate debug info in this path
+                          [LIBDIR/debug]
+  --with-gdb-datadir=PATH look for global separate data files in this path
+                          [DATADIR/gdb]
   --with-relocated-sources=PATH
                           automatically relocate this path for source files
   --with-libunwind        use libunwind frame unwinding support
@@ -1560,8 +1572,12 @@ Optional Packages:
   --with-zlib=DIR         root directory path of zlib installation [defaults to
                           /usr/local or /usr if not found in /usr/local]
   --without-zlib          to disable zlib usage completely
+  --with-libiconv-prefix=DIR
+                          search for libiconv in DIR/include and DIR/lib
   --with-iconv-bin=PATH   specify where to find the iconv program
   --with-system-readline  use installed readline library
+  --with-jit-reader-dir=PATH
+                          directory to load the JIT readers from
   --with-expat            include expat support (auto/yes/no)
   --with-libexpat-prefix[=DIR]  search for libexpat in DIR/include and DIR/lib
   --without-libexpat-prefix     don't search for libexpat in includedir and libdir
@@ -1572,6 +1588,8 @@ Optional Packages:
                           systems with version 2 of the GNU C library (use
                           with caution on other system)
   --with-sysroot[=DIR]    search for usr/lib et al within DIR
+  --with-system-gdbinit=PATH
+                          automatically load a system-wide gdbinit file
   --with-x                use the X Window System
 
 Some influential environment variables:
@@ -2821,9 +2839,9 @@ $as_echo "$as_me: creating cache $cache_file" >&6;}
 fi
 
 gt_needs="$gt_needs "
-as_fn_append ac_header_list " stdlib.h"
-as_fn_append ac_header_list " unistd.h"
-as_fn_append ac_header_list " sys/param.h"
+gl_header_list="$gl_header_list stdlib.h"
+gl_header_list="$gl_header_list unistd.h"
+gl_header_list="$gl_header_list sys/param.h"
 # Check that the precious variables saved in the cache have kept the same
 # value.
 ac_cache_corrupted=false
@@ -4125,6 +4143,9 @@ $as_echo "#define _POSIX_1_SOURCE 2" >>confdefs.h
 
 $as_echo "#define _MINIX 1" >>confdefs.h
 
+
+$as_echo "#define _NETBSD_SOURCE 1" >>confdefs.h
+
   fi
 
 
@@ -4160,15 +4181,65 @@ $as_echo "$ac_cv_safe_to_define___extensions__" >&6; }
 
   $as_echo "#define _ALL_SOURCE 1" >>confdefs.h
 
+  $as_echo "#define _DARWIN_C_SOURCE 1" >>confdefs.h
+
   $as_echo "#define _GNU_SOURCE 1" >>confdefs.h
 
   $as_echo "#define _POSIX_PTHREAD_SEMANTICS 1" >>confdefs.h
 
   $as_echo "#define _TANDEM_SOURCE 1" >>confdefs.h
 
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether _XOPEN_SOURCE should be defined" >&5
+$as_echo_n "checking whether _XOPEN_SOURCE should be defined... " >&6; }
+if ${ac_cv_should_define__xopen_source+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_cv_should_define__xopen_source=no
+     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
 
-gl_EARLY
-ACX_LARGEFILE
+          #include <wchar.h>
+          mbstate_t x;
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+             #define _XOPEN_SOURCE 500
+             #include <wchar.h>
+             mbstate_t x;
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  ac_cv_should_define__xopen_source=yes
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_should_define__xopen_source" >&5
+$as_echo "$ac_cv_should_define__xopen_source" >&6; }
+  test $ac_cv_should_define__xopen_source = yes &&
+    $as_echo "#define _XOPEN_SOURCE 500" >>confdefs.h
+
+
+# gl_EARLY
+# ACX_LARGEFILE
 if test "x$CC" != xcc; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CC and cc understand -c and -o together" >&5
 $as_echo_n "checking whether $CC and cc understand -c and -o together... " >&6; }
@@ -5134,8 +5205,8 @@ test -n "$target_alias" &&
 
 
 # Dependency checking.
-ZW_CREATE_DEPDIR
-ZW_PROG_COMPILER_DEPENDENCIES(CC)
+# ZW_CREATE_DEPDIR
+# ZW_PROG_COMPILER_DEPENDENCIES([CC])
 
 # Check for the 'make' the user wants to use.
 for ac_prog in make
@@ -5237,7 +5308,7 @@ CONFIG_CLEAN=
 CONFIG_INSTALL=
 CONFIG_UNINSTALL=
 
-ZW_GNU_GETTEXT_SISTER_DIR
+# ZW_GNU_GETTEXT_SISTER_DIR
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a thread-safe mkdir -p" >&5
 $as_echo_n "checking for a thread-safe mkdir -p... " >&6; }
 if test -z "$MKDIR_P"; then
@@ -7354,7 +7425,7 @@ if test x"$USE_NLS" = xyes; then
    CONFIG_UNINSTALL="$CONFIG_UNINSTALL uninstall-po"
 fi
 
-gl_INIT
+# gl_INIT
 
 # For Makefile dependencies.
 GNULIB_STDINT_H=
@@ -8056,22 +8127,117 @@ fi
 
 
 
-GDB_AC_WITH_DIR(DEBUGDIR, separate-debug-dir,
-    look for global separate debug info in this path [LIBDIR/debug],
-    ${libdir}/debug)
+
+
+# Check whether --with-separate-debug-dir was given.
+if test "${with_separate_debug_dir+set}" = set; then :
+  withval=$with_separate_debug_dir;
+    DEBUGDIR=$withval
+else
+  DEBUGDIR=${libdir}/debug
+fi
+
+
+  test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+  test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+  ac_define_dir=`eval echo $DEBUGDIR`
+  ac_define_dir=`eval echo $ac_define_dir`
+
+cat >>confdefs.h <<_ACEOF
+#define DEBUGDIR "$ac_define_dir"
+_ACEOF
+
+
+
+
+  if test "x$exec_prefix" = xNONE || test "x$exec_prefix" = 'x${prefix}'; then
+     if test "x$prefix" = xNONE; then
+     	test_prefix=/usr/local
+     else
+	test_prefix=$prefix
+     fi
+  else
+     test_prefix=$exec_prefix
+  fi
+  value=0
+  case ${ac_define_dir} in
+     "${test_prefix}"|"${test_prefix}/"*|\
+	'${exec_prefix}'|'${exec_prefix}/'*)
+     value=1
+     ;;
+  esac
+
+cat >>confdefs.h <<_ACEOF
+#define DEBUGDIR_RELOCATABLE $value
+_ACEOF
+
+
+
 
 # GDB's datadir relocation
 
-GDB_AC_WITH_DIR(GDB_DATADIR, gdb-datadir,
-    look for global separate data files in this path [DATADIR/gdb],
-    ${datadir}/gdb)
+
+
+# Check whether --with-gdb-datadir was given.
+if test "${with_gdb_datadir+set}" = set; then :
+  withval=$with_gdb_datadir;
+    GDB_DATADIR=$withval
+else
+  GDB_DATADIR=${datadir}/gdb
+fi
+
+
+  test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+  test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+  ac_define_dir=`eval echo $GDB_DATADIR`
+  ac_define_dir=`eval echo $ac_define_dir`
+
+cat >>confdefs.h <<_ACEOF
+#define GDB_DATADIR "$ac_define_dir"
+_ACEOF
+
+
+
+
+  if test "x$exec_prefix" = xNONE || test "x$exec_prefix" = 'x${prefix}'; then
+     if test "x$prefix" = xNONE; then
+     	test_prefix=/usr/local
+     else
+	test_prefix=$prefix
+     fi
+  else
+     test_prefix=$exec_prefix
+  fi
+  value=0
+  case ${ac_define_dir} in
+     "${test_prefix}"|"${test_prefix}/"*|\
+	'${exec_prefix}'|'${exec_prefix}/'*)
+     value=1
+     ;;
+  esac
+
+cat >>confdefs.h <<_ACEOF
+#define GDB_DATADIR_RELOCATABLE $value
+_ACEOF
+
+
+
 
 
 # Check whether --with-relocated-sources was given.
 if test "${with_relocated_sources+set}" = set; then :
   withval=$with_relocated_sources; reloc_srcdir="${withval}"
- AC_DEFINE_DIR(RELOC_SRCDIR, reloc_srcdir,
-              Relocated directory for source files. )
+
+  test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+  test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+  ac_define_dir=`eval echo $reloc_srcdir`
+  ac_define_dir=`eval echo $ac_define_dir`
+
+cat >>confdefs.h <<_ACEOF
+#define RELOC_SRCDIR "$ac_define_dir"
+_ACEOF
+
+
 
 fi
 
@@ -8530,8 +8696,8 @@ $as_echo "$ac_cv_cc_supports_pg" >&6; }
   CFLAGS="$OLD_CFLAGS"
 fi
 
-ACX_PKGVERSION(GDB)
-ACX_BUGURL(http://www.gnu.org/software/gdb/bugs/)
+# ACX_PKGVERSION([GDB])
+# ACX_BUGURL([http://www.gnu.org/software/gdb/bugs/])
 
 cat >>confdefs.h <<_ACEOF
 #define PKGVERSION "$PKGVERSION"
@@ -9524,32 +9690,19 @@ fi
 
 
 
-
-
-          am_save_CPPFLAGS="$CPPFLAGS"
-
-  for element in $INCICONV; do
-    haveit=
-    for x in $CPPFLAGS; do
-
-  acl_save_prefix="$prefix"
-  prefix="$acl_final_prefix"
-  acl_save_exec_prefix="$exec_prefix"
-  exec_prefix="$acl_final_exec_prefix"
-  eval x=\"$x\"
-  exec_prefix="$acl_save_exec_prefix"
-  prefix="$acl_save_prefix"
-
-      if test "X$x" = "X$element"; then
-        haveit=yes
-        break
-      fi
+# Check whether --with-libiconv-prefix was given.
+if test "${with_libiconv_prefix+set}" = set; then :
+  withval=$with_libiconv_prefix;
+    for dir in `echo "$withval" | tr : ' '`; do
+      if test -d $dir/include; then LIBICONV_INCLUDE="-I$dir/include"; fi
+      if test -d $dir/lib; then LIBICONV_LIBDIR="-L$dir/lib"; fi
     done
-    if test -z "$haveit"; then
-      CPPFLAGS="${CPPFLAGS}${CPPFLAGS:+ }$element"
-    fi
-  done
 
+fi
+
+
+  BUILD_LIBICONV_LIBDIRS="../libiconv/lib/.libs ../libiconv/lib/_libs"
+  BUILD_LIBICONV_INCLUDE="-I../libiconv/include"
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for iconv" >&5
 $as_echo_n "checking for iconv... " >&6; }
@@ -9559,12 +9712,21 @@ else
 
     am_cv_func_iconv="no, consider installing GNU libiconv"
     am_cv_lib_iconv=no
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
+    am_cv_use_build_libiconv=no
+    am_cv_build_libiconv_path=
 
+    # If libiconv is part of the build tree, then try using it over
+    # any system iconv.
+    if test -d ../libiconv; then
+      for lib_dir in $BUILD_LIBICONV_LIBDIRS; do
+        am_save_LIBS="$LIBS"
+        am_save_CPPFLAGS="$CPPFLAGS"
+        LIBS="$LIBS $lib_dir/libiconv.a"
+        CPPFLAGS="$CPPFLAGS $BUILD_LIBICONV_INCLUDE"
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
 #include <stdlib.h>
 #include <iconv.h>
-
 int
 main ()
 {
@@ -9576,25 +9738,64 @@ iconv_t cd = iconv_open("","");
 }
 _ACEOF
 if ac_fn_c_try_link "$LINENO"; then :
-  am_cv_func_iconv=yes
+  am_cv_use_build_libiconv=yes
+          am_cv_build_libiconv_path=$lib_dir/libiconv.a
+          am_cv_lib_iconv=yes
+          am_cv_func_iconv=yes
 fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
+        LIBS="$am_save_LIBS"
+        CPPFLAGS="$am_save_CPPFLAGS"
+        if test "$am_cv_use_build_libiconv" = "yes"; then
+          break
+        fi
+      done
+    fi
+
+    # Next, try to find iconv in libc.
     if test "$am_cv_func_iconv" != yes; then
-      am_save_LIBS="$LIBS"
-      LIBS="$LIBS $LIBICONV"
       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
-
 #include <stdlib.h>
 #include <iconv.h>
-
 int
 main ()
 {
 iconv_t cd = iconv_open("","");
-             iconv(cd,NULL,NULL,NULL,NULL);
-             iconv_close(cd);
+         iconv(cd,NULL,NULL,NULL,NULL);
+         iconv_close(cd);
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  am_cv_func_iconv=yes
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+    fi
+
+    # If iconv was not in libc, try -liconv.  In this case, arrange to
+    # look in the libiconv prefix, if it was specified by the user.
+    if test "$am_cv_func_iconv" != yes; then
+      am_save_CPPFLAGS="$CPPFLAGS"
+      am_save_LIBS="$LIBS"
+      if test -n "$LIBICONV_INCLUDE"; then
+        CPPFLAGS="$CPPFLAGS $LIBICONV_INCLUDE"
+        LIBS="$LIBS $LIBICONV_LIBDIR"
+      fi
+      LIBS="$LIBS -liconv"
+      cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <stdlib.h>
+#include <iconv.h>
+int
+main ()
+{
+iconv_t cd = iconv_open("","");
+         iconv(cd,NULL,NULL,NULL,NULL);
+         iconv_close(cd);
   ;
   return 0;
 }
@@ -9606,172 +9807,34 @@ fi
 rm -f core conftest.err conftest.$ac_objext \
     conftest$ac_exeext conftest.$ac_ext
       LIBS="$am_save_LIBS"
+      CPPFLAGS="$am_save_CPPFLAGS"
     fi
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_func_iconv" >&5
 $as_echo "$am_cv_func_iconv" >&6; }
-  if test "$am_cv_func_iconv" = yes; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for working iconv" >&5
-$as_echo_n "checking for working iconv... " >&6; }
-if ${am_cv_func_iconv_works+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
 
-                  am_save_LIBS="$LIBS"
-      if test $am_cv_lib_iconv = yes; then
-        LIBS="$LIBS $LIBICONV"
-      fi
-      if test "$cross_compiling" = yes; then :
-
-         case "$host_os" in
-           aix* | hpux*) am_cv_func_iconv_works="guessing no" ;;
-           *)            am_cv_func_iconv_works="guessing yes" ;;
-         esac
-
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <iconv.h>
-#include <string.h>
-int main ()
-{
-  int result = 0;
-  /* Test against AIX 5.1 bug: Failures are not distinguishable from successful
-     returns.  */
-  {
-    iconv_t cd_utf8_to_88591 = iconv_open ("ISO8859-1", "UTF-8");
-    if (cd_utf8_to_88591 != (iconv_t)(-1))
-      {
-        static const char input[] = "\342\202\254"; /* EURO SIGN */
-        char buf[10];
-        const char *inptr = input;
-        size_t inbytesleft = strlen (input);
-        char *outptr = buf;
-        size_t outbytesleft = sizeof (buf);
-        size_t res = iconv (cd_utf8_to_88591,
-                            (char **) &inptr, &inbytesleft,
-                            &outptr, &outbytesleft);
-        if (res == 0)
-          result |= 1;
-        iconv_close (cd_utf8_to_88591);
-      }
-  }
-  /* Test against Solaris 10 bug: Failures are not distinguishable from
-     successful returns.  */
-  {
-    iconv_t cd_ascii_to_88591 = iconv_open ("ISO8859-1", "646");
-    if (cd_ascii_to_88591 != (iconv_t)(-1))
-      {
-        static const char input[] = "\263";
-        char buf[10];
-        const char *inptr = input;
-        size_t inbytesleft = strlen (input);
-        char *outptr = buf;
-        size_t outbytesleft = sizeof (buf);
-        size_t res = iconv (cd_ascii_to_88591,
-                            (char **) &inptr, &inbytesleft,
-                            &outptr, &outbytesleft);
-        if (res == 0)
-          result |= 2;
-        iconv_close (cd_ascii_to_88591);
-      }
-  }
-  /* Test against AIX 6.1..7.1 bug: Buffer overrun.  */
-  {
-    iconv_t cd_88591_to_utf8 = iconv_open ("UTF-8", "ISO-8859-1");
-    if (cd_88591_to_utf8 != (iconv_t)(-1))
-      {
-        static const char input[] = "\304";
-        static char buf[2] = { (char)0xDE, (char)0xAD };
-        const char *inptr = input;
-        size_t inbytesleft = 1;
-        char *outptr = buf;
-        size_t outbytesleft = 1;
-        size_t res = iconv (cd_88591_to_utf8,
-                            (char **) &inptr, &inbytesleft,
-                            &outptr, &outbytesleft);
-        if (res != (size_t)(-1) || outptr - buf > 1 || buf[1] != (char)0xAD)
-          result |= 4;
-        iconv_close (cd_88591_to_utf8);
-      }
-  }
-#if 0 /* This bug could be worked around by the caller.  */
-  /* Test against HP-UX 11.11 bug: Positive return value instead of 0.  */
-  {
-    iconv_t cd_88591_to_utf8 = iconv_open ("utf8", "iso88591");
-    if (cd_88591_to_utf8 != (iconv_t)(-1))
-      {
-        static const char input[] = "\304rger mit b\366sen B\374bchen ohne Augenma\337";
-        char buf[50];
-        const char *inptr = input;
-        size_t inbytesleft = strlen (input);
-        char *outptr = buf;
-        size_t outbytesleft = sizeof (buf);
-        size_t res = iconv (cd_88591_to_utf8,
-                            (char **) &inptr, &inbytesleft,
-                            &outptr, &outbytesleft);
-        if ((int)res > 0)
-          result |= 8;
-        iconv_close (cd_88591_to_utf8);
-      }
-  }
-#endif
-  /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
-     provided.  */
-  if (/* Try standardized names.  */
-      iconv_open ("UTF-8", "EUC-JP") == (iconv_t)(-1)
-      /* Try IRIX, OSF/1 names.  */
-      && iconv_open ("UTF-8", "eucJP") == (iconv_t)(-1)
-      /* Try AIX names.  */
-      && iconv_open ("UTF-8", "IBM-eucJP") == (iconv_t)(-1)
-      /* Try HP-UX names.  */
-      && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
-    result |= 16;
-  return result;
-}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-  am_cv_func_iconv_works=yes
-else
-  am_cv_func_iconv_works=no
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-      LIBS="$am_save_LIBS"
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_func_iconv_works" >&5
-$as_echo "$am_cv_func_iconv_works" >&6; }
-    case "$am_cv_func_iconv_works" in
-      *no) am_func_iconv=no am_cv_lib_iconv=no ;;
-      *)   am_func_iconv=yes ;;
-    esac
+  # Set the various flags based on the cache variables.  We can't rely
+  # on the flags to remain set from the above code, due to caching.
+  LIBICONV=
+  if test "$am_cv_lib_iconv" = yes; then
+    LIBICONV="-liconv"
   else
-    am_func_iconv=no am_cv_lib_iconv=no
+    LIBICONV_LIBDIR=
+    LIBICONV_INCLUDE=
   fi
-  if test "$am_func_iconv" = yes; then
+  if test "$am_cv_use_build_libiconv" = yes; then
+    LIBICONV="$am_cv_build_libiconv_path"
+    LIBICONV_LIBDIR=""
+    LIBICONV_INCLUDE="$BUILD_LIBICONV_INCLUDE"
+  fi
+  CPPFLAGS="$CPPFLAGS $LIBICONV_INCLUDE"
+  LIBS="$LIBS $LIBICONV_LIBDIR $LIBICONV"
+
+  if test "$am_cv_func_iconv" = yes; then
 
 $as_echo "#define HAVE_ICONV 1" >>confdefs.h
 
-  fi
-  if test "$am_cv_lib_iconv" = yes; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking how to link with libiconv" >&5
-$as_echo_n "checking how to link with libiconv... " >&6; }
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBICONV" >&5
-$as_echo "$LIBICONV" >&6; }
-  else
-            CPPFLAGS="$am_save_CPPFLAGS"
-    LIBICONV=
-    LTLIBICONV=
-  fi
-
-
-
-  if test "$am_cv_func_iconv" = yes; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for iconv declaration" >&5
 $as_echo_n "checking for iconv declaration... " >&6; }
     if ${am_cv_proto_iconv+:} false; then :
@@ -9787,7 +9850,7 @@ extern
 #ifdef __cplusplus
 "C"
 #endif
-#if defined(__STDC__) || defined(_MSC_VER) || defined(__cplusplus)
+#if defined(__STDC__) || defined(__cplusplus)
 size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
 #else
 size_t iconv();
@@ -9811,15 +9874,14 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 
     am_cv_proto_iconv=`echo "$am_cv_proto_iconv" | tr -s ' ' | sed -e 's/( /(/'`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result:
-         $am_cv_proto_iconv" >&5
-$as_echo "
-         $am_cv_proto_iconv" >&6; }
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${ac_t:-
+         }$am_cv_proto_iconv" >&5
+$as_echo "${ac_t:-
+         }$am_cv_proto_iconv" >&6; }
 
 cat >>confdefs.h <<_ACEOF
 #define ICONV_CONST $am_cv_proto_iconv_arg1
 _ACEOF
-
 
   fi
 
@@ -9848,7 +9910,29 @@ cat >>confdefs.h <<_ACEOF
 #define ICONV_BIN "${iconv_bin}"
 _ACEOF
 
- GDB_AC_DEFINE_RELOCATABLE(ICONV_BIN, iconv, ${iconv_bin})
+
+  if test "x$exec_prefix" = xNONE || test "x$exec_prefix" = 'x${prefix}'; then
+     if test "x$prefix" = xNONE; then
+     	test_prefix=/usr/local
+     else
+	test_prefix=$prefix
+     fi
+  else
+     test_prefix=$exec_prefix
+  fi
+  value=0
+  case ${iconv_bin} in
+     "${test_prefix}"|"${test_prefix}/"*|\
+	'${exec_prefix}'|'${exec_prefix}/'*)
+     value=1
+     ;;
+  esac
+
+cat >>confdefs.h <<_ACEOF
+#define ICONV_BIN_RELOCATABLE $value
+_ACEOF
+
+
 
 fi
 
@@ -10260,9 +10344,52 @@ if test "$ac_res" != no; then :
 fi
 
 
-GDB_AC_WITH_DIR(JIT_READER_DIR, jit-reader-dir,
-                directory to load the JIT readers from,
-                ${libdir}/gdb)
+
+
+# Check whether --with-jit-reader-dir was given.
+if test "${with_jit_reader_dir+set}" = set; then :
+  withval=$with_jit_reader_dir;
+    JIT_READER_DIR=$withval
+else
+  JIT_READER_DIR=${libdir}/gdb
+fi
+
+
+  test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+  test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+  ac_define_dir=`eval echo $JIT_READER_DIR`
+  ac_define_dir=`eval echo $ac_define_dir`
+
+cat >>confdefs.h <<_ACEOF
+#define JIT_READER_DIR "$ac_define_dir"
+_ACEOF
+
+
+
+
+  if test "x$exec_prefix" = xNONE || test "x$exec_prefix" = 'x${prefix}'; then
+     if test "x$prefix" = xNONE; then
+     	test_prefix=/usr/local
+     else
+	test_prefix=$prefix
+     fi
+  else
+     test_prefix=$exec_prefix
+  fi
+  value=0
+  case ${ac_define_dir} in
+     "${test_prefix}"|"${test_prefix}/"*|\
+	'${exec_prefix}'|'${exec_prefix}/'*)
+     value=1
+     ;;
+  esac
+
+cat >>confdefs.h <<_ACEOF
+#define JIT_READER_DIR_RELOCATABLE $value
+_ACEOF
+
+
+
 
 
 # Check whether --with-expat was given.
@@ -11525,7 +11652,29 @@ cat >>confdefs.h <<_ACEOF
 #define WITH_PYTHON_PATH "${python_prefix}"
 _ACEOF
 
-      GDB_AC_DEFINE_RELOCATABLE(PYTHON_PATH, python, ${python_prefix})
+
+  if test "x$exec_prefix" = xNONE || test "x$exec_prefix" = 'x${prefix}'; then
+     if test "x$prefix" = xNONE; then
+     	test_prefix=/usr/local
+     else
+	test_prefix=$prefix
+     fi
+  else
+     test_prefix=$exec_prefix
+  fi
+  value=0
+  case ${python_prefix} in
+     "${test_prefix}"|"${test_prefix}/"*|\
+	'${exec_prefix}'|'${exec_prefix}/'*)
+     value=1
+     ;;
+  esac
+
+cat >>confdefs.h <<_ACEOF
+#define PYTHON_PATH_RELOCATABLE $value
+_ACEOF
+
+
     fi
   fi
 fi
@@ -13600,11 +13749,11 @@ fi
 
 
 
-  for ac_header in $ac_header_list
+
+  for ac_header in $gl_header_list
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
-ac_fn_c_check_header_compile "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default
-"
+ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
 if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
   cat >>confdefs.h <<_ACEOF
 #define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
@@ -13613,6 +13762,26 @@ _ACEOF
 fi
 
 done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  :
+
+
+
 
 
 
@@ -15146,20 +15315,20 @@ $as_echo "#define _KMEMUSER 1" >>confdefs.h
 fi
 
 if test "$ac_cv_header_sys_procfs_h" = yes; then
-  BFD_HAVE_SYS_PROCFS_TYPE(pstatus_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prrun_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(gregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(fpregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prgregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prfpregset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prgregset32_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prfpregset32_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(lwpid_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(psaddr_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(prsysent_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(pr_sigset_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(pr_sigaction64_t)
-  BFD_HAVE_SYS_PROCFS_TYPE(pr_siginfo64_t)
+#  BFD_HAVE_SYS_PROCFS_TYPE([pstatus_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prrun_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([gregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([fpregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prgregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prfpregset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prgregset32_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prfpregset32_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([lwpid_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([psaddr_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([prsysent_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([pr_sigset_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([pr_sigaction64_t])
+#  BFD_HAVE_SYS_PROCFS_TYPE([pr_siginfo64_t])
 
 
 
@@ -16154,9 +16323,52 @@ TARGET_SYSTEM_ROOT_DEFINE="$TARGET_SYSTEM_ROOT_DEFINE -DTARGET_SYSTEM_ROOT_RELOC
 
 
 
-GDB_AC_WITH_DIR(SYSTEM_GDBINIT, system-gdbinit,
-    automatically load a system-wide gdbinit file,
-    )
+
+
+# Check whether --with-system-gdbinit was given.
+if test "${with_system_gdbinit+set}" = set; then :
+  withval=$with_system_gdbinit;
+    SYSTEM_GDBINIT=$withval
+else
+  SYSTEM_GDBINIT=
+fi
+
+
+  test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+  test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+  ac_define_dir=`eval echo $SYSTEM_GDBINIT`
+  ac_define_dir=`eval echo $ac_define_dir`
+
+cat >>confdefs.h <<_ACEOF
+#define SYSTEM_GDBINIT "$ac_define_dir"
+_ACEOF
+
+
+
+
+  if test "x$exec_prefix" = xNONE || test "x$exec_prefix" = 'x${prefix}'; then
+     if test "x$prefix" = xNONE; then
+     	test_prefix=/usr/local
+     else
+	test_prefix=$prefix
+     fi
+  else
+     test_prefix=$exec_prefix
+  fi
+  value=0
+  case ${ac_define_dir} in
+     "${test_prefix}"|"${test_prefix}/"*|\
+	'${exec_prefix}'|'${exec_prefix}/'*)
+     value=1
+     ;;
+  esac
+
+cat >>confdefs.h <<_ACEOF
+#define SYSTEM_GDBINIT_RELOCATABLE $value
+_ACEOF
+
+
+
 
 # Check whether --enable-werror was given.
 if test "${enable_werror+set}" = set; then :
@@ -16397,14 +16609,14 @@ if test "${enable_gdbtk}" = "yes"; then
     GDBTK_SRC_DIR=`pwd`
     cd $here
 
-    SC_PATH_TCLCONFIG
+#    SC_PATH_TCLCONFIG
 
     # If $no_tk is nonempty, then we can't do Tk, and there is no
     # point to doing Tcl.
-    SC_PATH_TKCONFIG
+#    SC_PATH_TKCONFIG
 
     if test -z "${no_tcl}" -a -z "${no_tk}"; then
-	SC_LOAD_TCLCONFIG
+#	SC_LOAD_TCLCONFIG
 
         # Check for in-tree tcl
         here=`pwd`
@@ -16419,7 +16631,23 @@ if test "${enable_gdbtk}" = "yes"; then
 
         # Find Tcl private headers
         if test x"${intree}" = xno; then
-          CY_AC_TCL_PRIVATE_HEADERS
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Tcl private headers" >&5
+$as_echo_n "checking for Tcl private headers... " >&6; }
+  private_dir=""
+  dir=`echo ${TCL_INCLUDE_SPEC}/tcl-private/generic | sed -e s/-I//`
+  if test -f ${dir}/tclInt.h ; then
+    private_dir=${dir}
+  fi
+
+  if test x"${private_dir}" = x; then
+    as_fn_error $? "could not find private Tcl headers" "$LINENO" 5
+  else
+    TCL_PRIVATE_INCLUDE="-I${private_dir}"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${private_dir}" >&5
+$as_echo "${private_dir}" >&6; }
+  fi
+
 	  TCL_INCLUDE="${TCL_INCLUDE_SPEC} ${TCL_PRIVATE_INCLUDE}"
           TCL_LIBRARY="${TCL_LIB_SPEC}"
           TCL_DEPS=""
@@ -16435,7 +16663,7 @@ if test "${enable_gdbtk}" = "yes"; then
 
 
 
-	SC_LOAD_TKCONFIG
+#	SC_LOAD_TKCONFIG
 
         # Check for in-tree Tk
         intree="no"
@@ -16445,7 +16673,23 @@ if test "${enable_gdbtk}" = "yes"; then
 
         # Find Tk private headers
         if test x"${intree}" = xno; then
-          CY_AC_TK_PRIVATE_HEADERS
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Tk private headers" >&5
+$as_echo_n "checking for Tk private headers... " >&6; }
+  private_dir=""
+  dir=`echo ${TK_INCLUDE_SPEC}/tk-private/generic | sed -e s/-I//`
+  if test -f ${dir}/tkInt.h; then
+    private_dir=${dir}
+  fi
+
+  if test x"${private_dir}" = x; then
+    as_fn_error $? "could not find Tk private headers" "$LINENO" 5
+  else
+    TK_PRIVATE_INCLUDE="-I${private_dir}"
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${private_dir}" >&5
+$as_echo "${private_dir}" >&6; }
+  fi
+
 	  TK_INCLUDE="${TK_INCLUDE_SPEC} ${TK_PRIVATE_INCLUDE}"
 	  TK_LIBRARY=${TK_LIB_SPEC}
           TK_DEPS=""
@@ -16764,19 +17008,19 @@ if test "${host}" != "${target}"; then
 fi
 
 
-frags=
-if test "${gdb_native}" = "yes"; then
-  host_makefile_frag=${srcdir}/config/${gdb_host_cpu}/${gdb_host}.mh
-  if test ! -f ${host_makefile_frag}; then
-    as_fn_error $? "\"*** Gdb does not support native target ${host}\"" "$LINENO" 5
-  fi
-  frags="$frags $host_makefile_frag"
-else
-  host_makefile_frag=/dev/null
-fi
+#frags=
+#if test "${gdb_native}" = "yes"; then
+#  host_makefile_frag=${srcdir}/config/${gdb_host_cpu}/${gdb_host}.mh
+#  if test ! -f ${host_makefile_frag}; then
+#    AC_MSG_ERROR("*** Gdb does not support native target ${host}")
+#  fi
+#  frags="$frags $host_makefile_frag"
+#else
+#  host_makefile_frag=/dev/null
+#fi
 
-
-
+#AC_SUBST_FILE(host_makefile_frag)
+#AC_SUBST(frags)
 
 if test "${gdb_native}" = "yes"; then
 # We pick this up from the host configuration file (.mh) because we
@@ -16882,7 +17126,7 @@ ac_config_links="$ac_config_links $ac_config_links_1"
 $as_echo "#define GDB_DEFAULT_HOST_CHARSET \"UTF-8\"" >>confdefs.h
 
 
-ac_config_files="$ac_config_files Makefile .gdbinit:gdbinit.in doc/Makefile gnulib/Makefile data-directory/Makefile"
+ac_config_files="$ac_config_files .gdbinit:gdbinit.in data-directory/Makefile"
 
 ac_config_commands="$ac_config_commands default"
 
@@ -17641,10 +17885,7 @@ do
     "jit-reader.h") CONFIG_FILES="$CONFIG_FILES jit-reader.h:jit-reader.in" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
     "$ac_config_links_1") CONFIG_LINKS="$CONFIG_LINKS $ac_config_links_1" ;;
-    "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     ".gdbinit") CONFIG_FILES="$CONFIG_FILES .gdbinit:gdbinit.in" ;;
-    "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
-    "gnulib/Makefile") CONFIG_FILES="$CONFIG_FILES gnulib/Makefile" ;;
     "data-directory/Makefile") CONFIG_FILES="$CONFIG_FILES data-directory/Makefile" ;;
     "default") CONFIG_COMMANDS="$CONFIG_COMMANDS default" ;;
 
@@ -17696,24 +17937,7 @@ ac_tmp=$tmp
 # This happens for instance with `./config.status config.h'.
 if test -n "$CONFIG_FILES"; then
 
-if $AWK 'BEGIN { getline <"/dev/null" }' </dev/null 2>/dev/null; then
-  ac_cs_awk_getline=:
-  ac_cs_awk_pipe_init=
-  ac_cs_awk_read_file='
-      while ((getline aline < (F[key])) > 0)
-	print(aline)
-      close(F[key])'
-  ac_cs_awk_pipe_fini=
-else
-  ac_cs_awk_getline=false
-  ac_cs_awk_pipe_init="print \"cat <<'|#_!!_#|' &&\""
-  ac_cs_awk_read_file='
-      print "|#_!!_#|"
-      print "cat " F[key] " &&"
-      '$ac_cs_awk_pipe_init
-  # The final `:' finishes the AND list.
-  ac_cs_awk_pipe_fini='END { print "|#_!!_#|"; print ":" }'
-fi
+
 ac_cr=`echo X | tr X '\015'`
 # On cygwin, bash can eat \r inside `` if the user requested igncr.
 # But we know of no other shell where ac_cr would be empty at this
@@ -17731,17 +17955,6 @@ fi
 echo 'BEGIN {' >"$ac_tmp/subs1.awk" &&
 _ACEOF
 
-# Create commands to substitute file output variables.
-{
-  echo "cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1" &&
-  echo 'cat >>"\$ac_tmp/subs1.awk" <<\\_ACAWK &&' &&
-  echo "$ac_subst_files" | sed 's/.*/F["&"]="$&"/' &&
-  echo "_ACAWK" &&
-  echo "_ACEOF"
-} >conf$$files.sh &&
-. ./conf$$files.sh ||
-  as_fn_error $? "could not make $CONFIG_STATUS" "$LINENO" 5
-rm -f conf$$files.sh
 
 {
   echo "cat >conf$$subs.awk <<_ACEOF" &&
@@ -17818,7 +18031,7 @@ _ACAWK
 cat >>"\$ac_tmp/subs1.awk" <<_ACAWK &&
   for (key in S) S_is_set[key] = 1
   FS = ""
-  \$ac_cs_awk_pipe_init
+
 }
 {
   line = $ 0
@@ -17836,16 +18049,10 @@ cat >>"\$ac_tmp/subs1.awk" <<_ACAWK &&
     } else
       len += 1 + keylen
   }
-  if (nfields == 3 && !substed) {
-    key = field[2]
-    if (F[key] != "" && line ~ /^[	 ]*@.*@[	 ]*$/) {
-      \$ac_cs_awk_read_file
-      next
-    }
-  }
+
   print line
 }
-\$ac_cs_awk_pipe_fini
+
 _ACAWK
 _ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
@@ -18192,12 +18399,7 @@ s&@INSTALL@&$ac_INSTALL&;t t
 s&@MKDIR_P@&$ac_MKDIR_P&;t t
 $ac_datarootdir_hack
 "
-eval sed \"\$ac_sed_extra\" "$ac_file_inputs" |
-if $ac_cs_awk_getline; then
-  $AWK -f "$ac_tmp/subs.awk"
-else
-  $AWK -f "$ac_tmp/subs.awk" | $SHELL
-fi \
+eval sed \"\$ac_sed_extra\" "$ac_file_inputs" | $AWK -f "$ac_tmp/subs.awk" \
   >$ac_tmp/out || as_fn_error $? "could not create $ac_file" "$LINENO" 5
 
 test -z "$ac_datarootdir_hack$ac_datarootdir_seen" &&

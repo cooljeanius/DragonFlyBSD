@@ -20,87 +20,6 @@ You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
 
-# codeset.m4 serial 5 (gettext-0.18.2)
-dnl Copyright (C) 2000-2002, 2006, 2008-2012 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
-
-dnl From Bruno Haible.
-
-AC_DEFUN([AM_LANGINFO_CODESET],
-[
-  AC_CACHE_CHECK([for nl_langinfo and CODESET], [am_cv_langinfo_codeset],
-    [AC_LINK_IFELSE(
-       [AC_LANG_PROGRAM(
-          [[#include <langinfo.h>]],
-          [[char* cs = nl_langinfo(CODESET); return !cs;]])],
-       [am_cv_langinfo_codeset=yes],
-       [am_cv_langinfo_codeset=no])
-    ])
-  if test $am_cv_langinfo_codeset = yes; then
-    AC_DEFINE([HAVE_LANGINFO_CODESET], [1],
-      [Define if you have <langinfo.h> and nl_langinfo(CODESET).])
-  fi
-])
-
-# intlmacosx.m4 serial 5 (gettext-0.18.2)
-dnl Copyright (C) 2004-2012 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
-dnl
-dnl This file can can be used in projects which are not available under
-dnl the GNU General Public License or the GNU Library General Public
-dnl License but which still want to provide support for the GNU gettext
-dnl functionality.
-dnl Please note that the actual code of the GNU gettext library is covered
-dnl by the GNU Library General Public License, and the rest of the GNU
-dnl gettext package package is covered by the GNU General Public License.
-dnl They are *not* in the public domain.
-
-dnl Checks for special options needed on Mac OS X.
-dnl Defines INTL_MACOSX_LIBS.
-AC_DEFUN([gt_INTL_MACOSX],
-[
-  dnl Check for API introduced in Mac OS X 10.2.
-  AC_CACHE_CHECK([for CFPreferencesCopyAppValue],
-    [gt_cv_func_CFPreferencesCopyAppValue],
-    [gt_save_LIBS="$LIBS"
-     LIBS="$LIBS -Wl,-framework -Wl,CoreFoundation"
-     AC_LINK_IFELSE(
-       [AC_LANG_PROGRAM(
-          [[#include <CoreFoundation/CFPreferences.h>]],
-          [[CFPreferencesCopyAppValue(NULL, NULL)]])],
-       [gt_cv_func_CFPreferencesCopyAppValue=yes],
-       [gt_cv_func_CFPreferencesCopyAppValue=no])
-     LIBS="$gt_save_LIBS"])
-  if test $gt_cv_func_CFPreferencesCopyAppValue = yes; then
-    AC_DEFINE([HAVE_CFPREFERENCESCOPYAPPVALUE], [1],
-      [Define to 1 if you have the Mac OS X function CFPreferencesCopyAppValue in the CoreFoundation framework.])
-  fi
-  dnl Check for API introduced in Mac OS X 10.3.
-  AC_CACHE_CHECK([for CFLocaleCopyCurrent], [gt_cv_func_CFLocaleCopyCurrent],
-    [gt_save_LIBS="$LIBS"
-     LIBS="$LIBS -Wl,-framework -Wl,CoreFoundation"
-     AC_LINK_IFELSE(
-       [AC_LANG_PROGRAM(
-          [[#include <CoreFoundation/CFLocale.h>]],
-          [[CFLocaleCopyCurrent();]])],
-       [gt_cv_func_CFLocaleCopyCurrent=yes],
-       [gt_cv_func_CFLocaleCopyCurrent=no])
-     LIBS="$gt_save_LIBS"])
-  if test $gt_cv_func_CFLocaleCopyCurrent = yes; then
-    AC_DEFINE([HAVE_CFLOCALECOPYCURRENT], [1],
-      [Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the CoreFoundation framework.])
-  fi
-  INTL_MACOSX_LIBS=
-  if test $gt_cv_func_CFPreferencesCopyAppValue = yes || test $gt_cv_func_CFLocaleCopyCurrent = yes; then
-    INTL_MACOSX_LIBS="-Wl,-framework -Wl,CoreFoundation"
-  fi
-  AC_SUBST([INTL_MACOSX_LIBS])
-])
-
 # Copyright (C) 2002-2013 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
@@ -1167,13 +1086,20 @@ AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
 m4_include([m4/ax_check_zlib.m4])
+m4_include([m4/codeset.m4])
+m4_include([m4/depstand.m4])
+m4_include([m4/extensions.m4])
 m4_include([m4/gettext.m4])
 m4_include([m4/iconv.m4])
+m4_include([m4/intlmacosx.m4])
 m4_include([m4/lcmessage.m4])
 m4_include([m4/lib-ld.m4])
 m4_include([m4/lib-link.m4])
 m4_include([m4/lib-prefix.m4])
 m4_include([m4/nls.m4])
+m4_include([m4/onceonly.m4])
 m4_include([m4/po.m4])
 m4_include([m4/progtest.m4])
 m4_include([m4/python.m4])
+m4_include([m4/stdbool.m4])
+m4_include([acinclude.m4])

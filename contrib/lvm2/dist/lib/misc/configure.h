@@ -1,5 +1,5 @@
 /* lib/misc/configure.h.  Generated from configure.h.in by configure.  */
-/* lib/misc/configure.h.in.  Generated from configure.in by autoheader.  */
+/* lib/misc/configure.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define to 1 if the `closedir' function returns void instead of `int'. */
 /* #undef CLOSEDIR_VOID */
@@ -43,6 +43,9 @@
    */
 #define HAVE_ALLOCA_H 1
 
+/* Define to 1 if you have the <arpa/inet.h> header file. */
+#define HAVE_ARPA_INET_H 1
+
 /* Define to 1 if you have the <asm/byteorder.h> header file. */
 /* #undef HAVE_ASM_BYTEORDER_H */
 
@@ -54,6 +57,12 @@
 
 /* Define to 1 if you have the <ccs.h> header file. */
 /* #undef HAVE_CCS_H */
+
+/* Define to 1 if your system has a working `chown' function. */
+#define HAVE_CHOWN 1
+
+/* Define to 1 if you have the `clock_gettime' function. */
+/* #undef HAVE_CLOCK_GETTIME */
 
 /* Define to 1 if you have the <corosync/confdb.h> header file. */
 /* #undef HAVE_COROSYNC_CONFDB_H */
@@ -82,6 +91,9 @@
 /* Define to 1 if you have the `fork' function. */
 #define HAVE_FORK 1
 
+/* Define to 1 if you have the `ftruncate' function. */
+#define HAVE_FTRUNCATE 1
+
 /* Define to 1 if you have the `gethostname' function. */
 #define HAVE_GETHOSTNAME 1
 
@@ -100,11 +112,20 @@
 /* Define to 1 if you have the `getpagesize' function. */
 #define HAVE_GETPAGESIZE 1
 
+/* Define to 1 if you have the `gettimeofday' function. */
+#define HAVE_GETTIMEOFDAY 1
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have the <langinfo.h> header file. */
+#define HAVE_LANGINFO_H 1
+
 /* Define to 1 if you have the <libcman.h> header file. */
 /* #undef HAVE_LIBCMAN_H */
+
+/* Define to 1 if you have the `devmapper' library (-ldevmapper). */
+/* #undef HAVE_LIBDEVMAPPER */
 
 /* Define to 1 if dynamic libraries are available. */
 #define HAVE_LIBDL 1
@@ -120,6 +141,9 @@
 
 /* Define to 1 if you have the <libintl.h> header file. */
 /* #undef HAVE_LIBINTL_H */
+
+/* Define to 1 if you have the `pthread' library (-lpthread). */
+#define HAVE_LIBPTHREAD 1
 
 /* Define to 1 if you have the `readline' library (-lreadline). */
 #define HAVE_LIBREADLINE 1
@@ -159,6 +183,9 @@
 /* Define to 1 if you have the `mkdir' function. */
 #define HAVE_MKDIR 1
 
+/* Define to 1 if you have the `mkfifo' function. */
+#define HAVE_MKFIFO 1
+
 /* Define to 1 if you have a working `mmap' system call. */
 #define HAVE_MMAP 1
 
@@ -177,6 +204,9 @@
 /* Define to 1 if you have the <netinet/in.h> header file. */
 /* #undef HAVE_NETINET_IN_H */
 
+/* Define to 1 if you have the `nl_langinfo' function. */
+#define HAVE_NL_LANGINFO 1
+
 /* Define to 1 if you have the <pthread.h> header file. */
 /* #undef HAVE_PTHREAD_H */
 
@@ -185,6 +215,10 @@
 
 /* Define to 1 if you have the <readline/readline.h> header file. */
 /* #undef HAVE_READLINE_READLINE_H */
+
+/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+   and to 0 otherwise. */
+#define HAVE_REALLOC 1
 
 /* Define to 1 to include support for realtime clock. */
 /* #undef HAVE_REALTIME */
@@ -209,6 +243,9 @@
 
 /* Define to 1 if sepol_check_context is available. */
 /* #undef HAVE_SEPOL */
+
+/* Define to 1 if you have the `setenv' function. */
+#define HAVE_SETENV 1
 
 /* Define to 1 if you have the `setlocale' function. */
 #define HAVE_SETLOCALE 1
@@ -247,6 +284,9 @@
 /* Define to 1 if you have the `strchr' function. */
 #define HAVE_STRCHR 1
 
+/* Define to 1 if you have the `strcspn' function. */
+#define HAVE_STRCSPN 1
+
 /* Define to 1 if you have the `strdup' function. */
 #define HAVE_STRDUP 1
 
@@ -262,8 +302,14 @@
 /* Define to 1 if you have the `strncasecmp' function. */
 #define HAVE_STRNCASECMP 1
 
+/* Define to 1 if you have the `strndup' function. */
+#define HAVE_STRNDUP 1
+
 /* Define to 1 if you have the `strrchr' function. */
 #define HAVE_STRRCHR 1
+
+/* Define to 1 if you have the `strspn' function. */
+#define HAVE_STRSPN 1
 
 /* Define to 1 if you have the `strstr' function. */
 #define HAVE_STRSTR 1
@@ -274,7 +320,7 @@
 /* Define to 1 if you have the `strtoul' function. */
 #define HAVE_STRTOUL 1
 
-/* Define to 1 if `st_rdev' is member of `struct stat'. */
+/* Define to 1 if `st_rdev' is a member of `struct stat'. */
 #define HAVE_STRUCT_STAT_ST_RDEV 1
 
 /* Define to 1 if you have the <syslog.h> header file. */
@@ -379,6 +425,9 @@
 /* Define to 1 if `vfork' works. */
 #define HAVE_WORKING_VFORK 1
 
+/* Define to 1 if the system has the type `_Bool'. */
+#define HAVE__BOOL 1
+
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 /* #undef LSTAT_FOLLOWS_SLASHED_SYMLINK */
@@ -390,6 +439,14 @@
 /* Define to 1 to include built-in support for LVM1 metadata. */
 #define LVM1_INTERNAL 1
 
+/* Define to 1 if `major', `minor', and `makedev' are declared in <mkdev.h>.
+   */
+/* #undef MAJOR_IN_MKDEV */
+
+/* Define to 1 if `major', `minor', and `makedev' are declared in
+   <sysmacros.h>. */
+/* #undef MAJOR_IN_SYSMACROS */
+
 /* Define to 1 to include built-in support for mirrors. */
 #define MIRRORED_INTERNAL 1
 
@@ -399,20 +456,26 @@
 /* Define to 1 to enable O_DIRECT support. */
 /* #undef O_DIRECT_SUPPORT */
 
+/* Name of package */
+#define PACKAGE "lvm2"
+
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT ""
+#define PACKAGE_BUGREPORT "linux-lvm@redhat.com"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME ""
+#define PACKAGE_NAME "lvm2"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING ""
+#define PACKAGE_STRING "lvm2 2.02.56(1) (2009-11-24)"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME ""
+#define PACKAGE_TARNAME "lvm2"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION ""
+#define PACKAGE_VERSION "2.02.56(1) (2009-11-24)"
 
 /* Define to 1 to include built-in support for GFS pool metadata. */
 #define POOL_INTERNAL 1
@@ -455,14 +518,79 @@
 /* Define to 1 to enable synchronisation with udev processing. */
 /* #undef UDEV_SYNC_SUPPORT */
 
+/* Enable extensions on AIX 3, Interix.  */
+#ifndef _ALL_SOURCE
+# define _ALL_SOURCE 1
+#endif
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE 1
+#endif
+/* Enable threading extensions on Solaris.  */
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# define _POSIX_PTHREAD_SEMANTICS 1
+#endif
+/* Enable extensions on HP NonStop.  */
+#ifndef _TANDEM_SOURCE
+# define _TANDEM_SOURCE 1
+#endif
+/* Enable general extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# define __EXTENSIONS__ 1
+#endif
+
+
+/* Version number of package */
+#define VERSION "2.02.56(1) (2009-11-24)"
+
+/* Define to 1 if on MINIX. */
+/* #undef _MINIX */
+
+/* Define to 2 if the system does not provide POSIX.1 features except with
+   this defined. */
+/* #undef _POSIX_1_SOURCE */
+
+/* Define to 1 if you need to in order for `stat' and other things to work. */
+/* #undef _POSIX_SOURCE */
+
+/* Define for Solaris 2.5.1 so the uint32_t typedef from <sys/synch.h>,
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
+   #define below would cause a syntax error. */
+/* #undef _UINT32_T */
+
+/* Define for Solaris 2.5.1 so the uint64_t typedef from <sys/synch.h>,
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
+   #define below would cause a syntax error. */
+/* #undef _UINT64_T */
+
+/* Define for Solaris 2.5.1 so the uint8_t typedef from <sys/synch.h>,
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
+   #define below would cause a syntax error. */
+/* #undef _UINT8_T */
+
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
+
+/* Define to `int' if <sys/types.h> doesn't define. */
+/* #undef gid_t */
 
 /* Define to `__inline__' or `__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
 /* #undef inline */
 #endif
+
+/* Define to the type of a signed integer type of width exactly 32 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef int32_t */
+
+/* Define to the type of a signed integer type of width exactly 64 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef int64_t */
+
+/* Define to the type of a signed integer type of width exactly 8 bits if such
+   a type exists and the standard includes do not define it. */
+/* #undef int8_t */
 
 /* Define to rpl_malloc if the replacement function should be used. */
 /* #undef malloc */
@@ -476,8 +604,33 @@
 /* Define to `int' if <sys/types.h> does not define. */
 /* #undef pid_t */
 
+/* Define to rpl_realloc if the replacement function should be used. */
+/* #undef realloc */
+
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 /* #undef size_t */
+
+/* Define to `int' if <sys/types.h> does not define. */
+/* #undef ssize_t */
+
+/* Define to `int' if <sys/types.h> doesn't define. */
+/* #undef uid_t */
+
+/* Define to the type of an unsigned integer type of width exactly 16 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef uint16_t */
+
+/* Define to the type of an unsigned integer type of width exactly 32 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef uint32_t */
+
+/* Define to the type of an unsigned integer type of width exactly 64 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef uint64_t */
+
+/* Define to the type of an unsigned integer type of width exactly 8 bits if
+   such a type exists and the standard includes do not define it. */
+/* #undef uint8_t */
 
 /* Define as `fork' if `vfork' does not work. */
 /* #undef vfork */
