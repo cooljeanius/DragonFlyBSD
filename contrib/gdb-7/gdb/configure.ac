@@ -352,7 +352,7 @@ if test x"$enable_libunwind" = xyes; then
 fi
 
 opt_curses=no
-AC_ARG_WITH(curses, AS_HELP_STRING([--with-curses], [use the curses library instead of the termcap library]), opt_curses=$withval)
+AC_ARG_WITH([curses], AS_HELP_STRING([--with-curses], [use the curses library instead of the termcap library]), opt_curses=$withval)
 
 prefer_curses=no
 if test "$opt_curses" = "yes"; then
@@ -425,39 +425,39 @@ AC_PROG_LN_S
 AC_PROG_RANLIB
 AC_PROG_YACC
 
-AC_CHECK_TOOL(AR, ar)
-AC_CHECK_TOOL(DLLTOOL, dlltool)
-AC_CHECK_TOOL(WINDRES, windres)
+AC_CHECK_TOOL([AR], [ar])
+AC_CHECK_TOOL([DLLTOOL], [dlltool])
+AC_CHECK_TOOL([WINDRES], [windres])
 
-# Needed for GNU/Hurd.
-AC_CHECK_TOOL(MIG, mig)
+# Needed for GNU/Hurd (I think it refers to something else on Darwin though)
+AC_CHECK_TOOL([MIG], [mig])
 
 # ---------------------- #
 # Checks for libraries.  #
 # ---------------------- #
 
 # We might need to link with -lm; most simulators need it.
-AC_CHECK_LIB(m, main)
+AC_CHECK_LIB([m], [main])
 
 # We need to link with -lw to get `wctype' on Solaris before Solaris
 # 2.6.  Solaris 2.6 and beyond have this function in libc, and have a
 # libw that some versions of the GNU linker cannot hanle (GNU ld 2.9.1
 # is known to have this problem).  Therefore we avoid libw if we can.
-AC_CHECK_FUNC(wctype, [],
-  [AC_CHECK_LIB(w, wctype)])
+AC_CHECK_FUNC([wctype], [],
+  [AC_CHECK_LIB([w], [wctype])])
 
 # Some systems (e.g. Solaris) have `gethostbyname' in libnsl.
-AC_SEARCH_LIBS(gethostbyname, nsl)
+AC_SEARCH_LIBS([gethostbyname], [nsl])
 
 # Some systems (e.g. Solaris) have `socketpair' in libsocket.
-AC_SEARCH_LIBS(socketpair, socket)
+AC_SEARCH_LIBS([socketpair], [socket])
 
 # Link in zlib if we can.  This allows us to read compressed debug sections.
 # AX_* macros require the autoconf-archive package
 AX_CHECK_ZLIB
 
 # On HP/UX we may need libxpdl for dlgetmodinfo (used by solib-pa64.c).
-AC_SEARCH_LIBS(dlgetmodinfo, [dl xpdl])
+AC_SEARCH_LIBS([dlgetmodinfo], [dl xpdl])
 
 AM_ICONV
 
@@ -476,12 +476,12 @@ AM_ICONV
 #   with --with-libiconv-prefix.
 # Putting these together is why the option name is --with-iconv-bin.
 
-AC_ARG_WITH(iconv-bin,
+AC_ARG_WITH([iconv-bin],
 AS_HELP_STRING([--with-iconv-bin=PATH], [specify where to find the iconv program]),
 [iconv_bin="${withval}"
  AC_DEFINE_UNQUOTED([ICONV_BIN], ["${iconv_bin}"],
                     [Path of directory of iconv program.])
- GDB_AC_DEFINE_RELOCATABLE(ICONV_BIN, iconv, ${iconv_bin})
+ GDB_AC_DEFINE_RELOCATABLE([ICONV_BIN], [iconv], [${iconv_bin}])
 ])
 
 # On alpha-osf, it appears that libtermcap and libcurses are not compatible.
