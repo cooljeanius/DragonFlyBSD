@@ -12,7 +12,8 @@ SRCS=	compare.c crc.c create.c excludes.c misc.c mtree.c spec.c verify.c
 .PATH: ${.CURDIR}/../../lib/libc/gen
 SRCS+=	strtofflags.c
 .else
-CFLAGS+= -DMD5 -DSHA1 -DRMD160
+CFLAGS= -Wno-error
+CPPFLAGS+= -I/opt/local/include/openssl
 DPADD=	${LIBMD}
 LDADD=	-lmd
 .endif

@@ -41,14 +41,24 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <fts.h>
-#ifdef MD5
+#include "config.h"
+#ifdef HAVE_MD5_H
 #include <md5.h>
 #endif
-#ifdef SHA1
+#ifdef HAVE_OPENSSL_MD5_H
+#include <openssl/md5.h>
+#endif
+#ifdef HAVE_SHA_H
 #include <sha.h>
 #endif
-#ifdef RMD160
+#ifdef HAVE_OPENSSL_SHA_H
+#include <openssl/sha.h>
+#endif
+#ifdef HAVE_RIPEMD_H
 #include <ripemd.h>
+#endif
+#ifdef HAVE_OPENSSL_RIPEMD_H
+#include <openssl/ripemd.h>
 #endif
 #include <stdio.h>
 #include <time.h>
