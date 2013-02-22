@@ -12,6 +12,7 @@ AC_CANONICAL_HOST
 AC_ARG_PROGRAM()
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
+AM_DEP_TRACK
 
 dnl If the user wants a debugging environment, set OPTFLAG now.  (Some
 dnl compilers won't mix optimizing and debug flags.)

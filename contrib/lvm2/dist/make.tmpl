@@ -20,7 +20,7 @@ SHELL = /bin/sh
 CC = gcc
 RANLIB = ranlib
 SHELL = /bin/sh
-INSTALL = /opt/local/bin/ginstall -c
+INSTALL = /usr/bin/install -c
 MKDIR_P = /opt/local/bin/gmkdir -p
 MSGFMT = 
 LCOV = 
@@ -37,7 +37,7 @@ LDFLAGS +=
 LIB_SUFFIX = dylib
 
 # Setup directory variables
-prefix = /usr/local
+prefix = /opt/local
 exec_prefix = ${prefix}
 udev_prefix = ${exec_prefix}
 bindir = $(DESTDIR)${exec_prefix}/bin

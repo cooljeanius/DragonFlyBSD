@@ -16,7 +16,7 @@ SRCS+=	lstAppend.c lstAtEnd.c lstAtFront.c lstClose.c lstConcat.c \
 SRCS += lstPrev.c
 
 # you can use this Makefile if you have an earlier version of bmake.
-prefix= /usr/local
+prefix= /opt/local
 srcdir= /private/var/root/DragonFlyBSD/contrib/bmake
 CC?= gcc
 

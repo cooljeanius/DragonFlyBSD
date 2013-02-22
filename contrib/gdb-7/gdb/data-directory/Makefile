@@ -24,7 +24,7 @@ VPATH = $(SYSCALLS_SRCDIR):$(PYTHON_SRCDIR)
 top_srcdir = ..
 top_builddir = ..
 
-prefix = /usr/local
+prefix = /opt/local
 exec_prefix = ${prefix}
 
 datarootdir = ${prefix}/share
@@ -34,7 +34,7 @@ SHELL = /bin/sh
 
 LN_S = ln -s
 
-INSTALL = /opt/local/bin/ginstall -c
+INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_DIR = $(SHELL) $(srcdir)/../../mkinstalldirs
 
