@@ -10,11 +10,13 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_CC
 
 # Checks for libraries.
+# FIXME: Replace `main' with a function in `-lcrypto':
+AC_CHECK_LIB([crypto], [main])
 # FIXME: Replace `main' with a function in `-lmd':
 AC_CHECK_LIB([md], [main])
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/param.h sys/time.h unistd.h])
+AC_CHECK_HEADERS([fcntl.h stdint.h stdlib.h string.h sys/param.h sys/time.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_UID_T
@@ -25,7 +27,7 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_CHOWN
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([bzero getcwd gethostname lchown mkdir strchr strdup strerror strpbrk strtol strtoul])
+AC_CHECK_FUNCS([bzero gethostname lchown mkdir strchr strdup strerror strpbrk strtol strtoul])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

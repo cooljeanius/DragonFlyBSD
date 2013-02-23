@@ -14,8 +14,12 @@ SRCS+=	strtofflags.c
 .else
 CFLAGS= -Wno-error
 CPPFLAGS+= -I/opt/local/include/openssl
+.if defined(LIBMD)
 DPADD=	${LIBMD}
 LDADD=	-lmd
+.else
+LDADD= -lcrypto
+.endif
 .endif
 
 .include <bsd.prog.mk>

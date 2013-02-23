@@ -145,7 +145,7 @@ main(int argc, char *argv[])
 	if (dir && chdir(dir))
 		err(1, "%s", dir);
 
-	if ((cflag || sflag) && !getcwd(fullpath))
+	if ((cflag || sflag) && !getwd(fullpath))
 		errx(1, "%s", fullpath);
 
 	if (cflag) {

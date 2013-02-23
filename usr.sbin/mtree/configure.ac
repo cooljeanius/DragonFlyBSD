@@ -2,9 +2,14 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([mtree])
+AC_INIT([mtree],[8.2])
 AC_CONFIG_SRCDIR([compare.c])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE
+AM_MAINTAINER_MODE
+AM_SANITY_CHECK
+AC_ISC_POSIX
 
 # Checks for programs.
 AC_PROG_CC
@@ -33,8 +38,11 @@ AC_TYPE_SIZE_T
 AC_CHECK_TYPES([intmax_t])
 AC_CHECK_TYPES([uintmax_t])
 AC_CHECK_TYPES([uintptr_t])
-# The following is from m4/visibility.m4, which is originally from gettext
+# The following are originally from gettext
 gl_VISIBILITY
+gt_TYPE_INTMAX_T
+gt_INTDIV0
+gl_AC_HEADER_INTTYPES_H
 
 AC_ARG_ENABLE(werror,
   AS_HELP_STRING([--enable-werror], [treat compile warnings as errors]),
