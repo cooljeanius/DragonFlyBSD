@@ -1,10 +1,11 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
-AC_INIT([Dragonfly-BSD], [VERSION], [BUG-REPORT-ADDRESS])
+AC_PREREQ([2.70])
+AC_INIT([Dragonfly-BSD],[VERSION],[BUG-REPORT-ADDRESS])
 AC_CONFIG_SRCDIR([bin/cat/cat.c])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
@@ -12,7 +13,7 @@ AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 AM_SANITY_CHECK
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror],[cposix])
 AM_SET_LEADING_DOT
 AC_EXEEXT
 
@@ -255,7 +256,13 @@ AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_STRUCT_ST_BLOCKS
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 AC_CHECK_DECLS([sys_siglist])
-AC_DECL_SYS_SIGLIST
+AC_CHECK_DECLS([sys_siglist],[],[],[#include <signal.h>
+/* NetBSD declares sys_siglist in unistd.h.  */
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+])
+
 AC_STRUCT_TIMEZONE
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
@@ -283,7 +290,7 @@ AC_FUNC_STRTOD
 AC_FUNC_WAIT3
 AC_CHECK_FUNCS([__fpending alarm atexit btowc bzero clock_gettime doprnt dup2 endgrent endpwent fchdir fdatasync fesetround floor ftime ftruncate getcwd getdelim gethostbyaddr gethostbyname gethostname getmntinfo getpagesize getpass getspnam gettimeofday getusershell hasmntopt inet_ntoa isascii iswprint lchown localeconv localtime_r mblen mbrlen memchr memmove mempcpy memset mkdir mkfifo modf munmap nl_langinfo pathconf pow pstat_getdynamic putenv re_comp realpath regcmp regcomp resolvepath rint rmdir rpmatch select setenv sethostname setlocale socket sqrt stime stpcpy strcasecmp strchr strcspn strdup strerror strncasecmp strndup strpbrk strrchr strspn strstr strtol strtoul strtoull strtoumax strverscmp sysinfo tzset uname utime utmpname utmpxname wcwidth])
 
-AC_CONFIG_FILES([po/Makefile.in])
+AC_CONFIG_FILES([build-aux/Makefile po/Makefile.in])
 AC_CONFIG_SUBDIRS([contrib/bmake
                    contrib/expat
                    contrib/gdb-7/gdb

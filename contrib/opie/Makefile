@@ -1,4 +1,3 @@
-# Generated automatically from Makefile.in by configure.
 ##
 # Makefile.source and Makefile: Directions for building and installing OPIE.
 #
@@ -112,12 +111,12 @@ LIBS=
 OPTIONS=-DHAVE_CONFIG_H
 EXISTS=-e
 MKDIR=mkdir -p
-CHOWN=/bin/chown
-LOCALBIN=/opt/local/bin
-LOCALMAN=/opt/local/man
-SU=/bin/su
+CHOWN=/usr/sbin/chown
+LOCALBIN=/usr/local/bin
+LOCALMAN=/usr/local/share/man
+SU=/usr/bin/su
 ALT_SU=
-LOGIN=/bin/login
+LOGIN=/usr/bin/login
 LOCK_DIR=/etc/opielocks
 OPIEAUTO=
 

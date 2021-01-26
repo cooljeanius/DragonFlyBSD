@@ -1,0 +1,5 @@
+autoconf/compile linguist-vendored
+autoconf/config.guess linguist-vendored
+autoconf/config.sub linguist-vendored
+autoconf/install-sh linguist-vendored
+autoconf/missing linguist-vendored

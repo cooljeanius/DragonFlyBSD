@@ -2,7 +2,7 @@
 
 set -e
 
-srcdir=/private/var/root/DragonFlyBSD/contrib/bmake
+srcdir=/Users/ericgallager/Documents/GitHub/DragonFlyBSD/contrib/bmake
 
 DEFAULT_SYS_PATH="${prefix}/share/mk"
 
@@ -16,7 +16,7 @@ CFLAGS="-g -O2 -I. -I${srcdir} -DHAVE_CONFIG_H  -DMAKE_NATIVE ${XDEFS}"
 MAKE_VERSION=`sed -n '/^MAKE_VERSION=/s,.*=[^0-9]*,,p' Makefile`
 
 MDEFS="-DMAKE_VERSION=\"$MAKE_VERSION\" \
--DMACHINE=\"darwin11\" -DMACHINE_ARCH=\"i386\" \
+-DMACHINE=\"darwin19\" -DMACHINE_ARCH=\"i386\" \
 -D_PATH_DEFSYSPATH=\"${DEFAULT_SYS_PATH}\""
 
 

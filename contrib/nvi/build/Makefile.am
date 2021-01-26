@@ -74,7 +74,7 @@ fmode=	444
 
 transform=@program_transform_name@
 
-install: all install_common
+install-all-local: all install_common
 	@echo "Installing vi, ex, view: $(bindir) ..."
 	[ -d $(bindir) ] || \
 	    ($(mkdir) $(bindir) && $(chmod) $(dmode) $(bindir))
@@ -116,6 +116,7 @@ install: all install_common
 	    `echo vi.1 | sed '$(transform)'` `echo ex.1 | sed '$(transform)'`
 	cd $(mandir)/man1 && $(ln) \
 	    `echo vi.1 | sed '$(transform)'` `echo view.1 | sed '$(transform)'`
+.PHONY: install-all-local
 
 cat=	dutch english french german ru_SU.KOI8-R spanish swedish
 install_common:
@@ -151,7 +152,7 @@ install_common:
 	($(cp) recover $(datadir)/vi/recover && \
 	    $(chmod) $(emode) $(datadir)/vi/recover)
 
-uninstall:
+uninstall-all-local:
 	$(rm) -rf $(datadir)/vi
 	cd $(bindir) && $(rm) -f `echo ex | sed '$(transform)'`
 	cd $(bindir) && $(rm) -f `echo vi | sed '$(transform)'`
@@ -162,6 +163,7 @@ uninstall:
 	cd $(mandir)/man1 && $(rm) -f `echo ex.1 | sed '$(transform)'`
 	cd $(mandir)/man1 && $(rm) -f `echo vi.1 | sed '$(transform)'`
 	cd $(mandir)/man1 && $(rm) -f `echo view.1 | sed '$(transform)'`
+.PHONY: uninstall-all-local
 
 docs:
 	cd $(srcdir)/docs/USD.doc/vi.ref && $(MAKE)
@@ -170,7 +172,7 @@ docs:
 	cd $(srcdir)/docs/USD.doc/exref && $(MAKE)
 	cd $(srcdir)/docs/USD.doc/vitut && $(MAKE)
 
-clean:
+clean-local:
 	-rm -f *.core *.o memcpy.c perl.c
 	-rm -f nex nvi tknvi core
 	-rm -f $(COBJS) $(CLOBJS) $(DBOBJS) $(REOBJS)
@@ -183,7 +185,7 @@ cleandocs:
 	cd $(srcdir)/docs/USD.doc/exref && $(MAKE) clean
 	cd $(srcdir)/docs/USD.doc/vitut && $(MAKE) clean
 
-distclean maintainer-clean realclean: clean cleandocs
+distclean-local maintainer-clean-local realclean: clean-local cleandocs
 	-rm -f Makefile config.cache config.h config.log config.status
 	-rm -f pathnames.h port.h
 

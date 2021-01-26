@@ -16,13 +16,13 @@ SRCS+=	lstAppend.c lstAtEnd.c lstAtFront.c lstClose.c lstConcat.c \
 SRCS += lstPrev.c
 
 # you can use this Makefile if you have an earlier version of bmake.
-prefix= /opt/local
-srcdir= /private/var/root/DragonFlyBSD/contrib/bmake
+prefix= /usr/local
+srcdir= /Users/ericgallager/Documents/GitHub/DragonFlyBSD/contrib/bmake
 CC?= gcc
 
 # Base version on src date
 MAKE_VERSION= 20121010
-MACHINE=darwin11
+MACHINE=darwin19
 MACHINE_ARCH=i386
 DEFAULT_SYS_PATH = ${prefix}/share/mk
 
@@ -53,6 +53,8 @@ COPTS.meta.c += -DHAVE_FILEMON_H -I${FILEMON_H:H}
 
 .PATH:	${srcdir}
 .PATH:	${srcdir}/lst.lib
+
+SUBDIRS = build-aux
 
 OS!= uname -s
 ARCH!= uname -p 2>/dev/null || uname -m

@@ -11,7 +11,7 @@
 ## Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ################################################################################
 
-AC_PREREQ([2.57])
+AC_PREREQ([2.70])
 ################################################################################
 dnl -- Process this file with autoconf to produce a configure script.
 AC_INIT([lvm2],[2.02.56(1) (2009-11-24)],[linux-lvm@redhat.com])
@@ -63,7 +63,7 @@ AC_USE_SYSTEM_EXTENSIONS
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 AM_SANITY_CHECK
-AC_ISC_POSIX
+AC_SEARCH_LIBS([strerror],[cposix])
 AM_SET_LEADING_DOT
 AC_EXEEXT
 
@@ -94,10 +94,24 @@ AC_CHECK_LIB([pthread], [main])
 ################################################################################
 dnl -- Check for header files.
 AC_HEADER_DIRENT
-AC_HEADER_STDC
+dnl# autoupdate says:
+dnl# The preprocessor macro `STDC_HEADERS' is obsolete.
+dnl# Except in unusual embedded environments, you can safely include all
+dnl# ISO C90 headers unconditionally.
+# Autoupdate added the next few lines to ensure that your configure
+# script's behavior did not change.  They are probably safe to remove.
+AC_CHECK_INCLUDES_DEFAULT
+if test "x${EGREP}" = "x"; then
+  test -z "${EGREP}"
+  AC_PROG_EGREP
+fi
 AC_HEADER_SYS_WAIT
-AC_HEADER_TIME
-
+AC_CHECK_HEADERS_ONCE([sys/time.h])
+if test "x${ac_cv_header_sys_time_h}" = "xyes"; then
+  AC_DEFINE([TIME_WITH_SYS_TIME],[1],
+	    [Define to 1 if you can safely include both <sys/time.h>
+	     and <time.h>.  This macro is obsolete.])
+fi
 AC_CHECK_HEADERS([locale.h stddef.h syslog.h sys/file.h sys/time.h assert.h \
   libgen.h signal.h sys/mman.h sys/resource.h sys/utsname.h sys/wait.h time.h], ,
   [AC_MSG_ERROR(bailing out)])
@@ -125,20 +139,31 @@ AC_C_INLINE
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
-AC_TYPE_SIGNAL
+dnl# begin what used to be AC\_TYPE\_SIGNAL
+AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],[AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([#include <sys/types.h>
+#include <signal.h>
+],
+		 [return *(signal (0, 0)) (0) == 1;])],
+		   [ac_cv_type_signal=int],
+		   [ac_cv_type_signal=void])])
+AC_DEFINE_UNQUOTED([RETSIGTYPE],[${ac_cv_type_signal}],
+		   [Define as the return type of signal handlers
+		    (`int' or `void').])
+dnl# end what used to be AC\_TYPE\_SIGNAL
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
+AC_TYPE_INT8_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
-AC_TYPE_INT8_T
 AC_TYPE_MODE_T
 AC_TYPE_UID_T
 AC_CHECK_MEMBERS([struct stat.st_rdev])
 AC_STRUCT_TM
+AC_TYPE_UINT8_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 AC_TYPE_UINT64_T
-AC_TYPE_UINT8_T
 
 ################################################################################
 dnl -- Check for functions
@@ -659,7 +684,7 @@ AC_MSG_RESULT($COPTIMISE_FLAG)
 dnl -- Enable profiling
 AC_MSG_CHECKING(whether to gather gcov profiling data)
 AC_ARG_ENABLE(profiling,
-  AC_HELP_STRING(--enable-profiling, [Gather gcov profiling data]),
+  AS_HELP_STRING([--enable-profiling],[Gather gcov profiling data]),
   PROFILING=$enableval, PROFILING=no)
 AC_MSG_RESULT($PROFILING)
 
@@ -1189,6 +1214,7 @@ dnl -- keep utility scripts running properly
 AC_CONFIG_FILES([
 Makefile
 make.tmpl
+autoconf/Makefile
 daemons/Makefile
 daemons/clvmd/Makefile
 daemons/cmirrord/Makefile

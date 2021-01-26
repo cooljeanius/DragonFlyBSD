@@ -1,4 +1,3 @@
-# Generated automatically from Makefile.in by configure.
 ##
 # Makefile.in/Makefile: Directions for building libmissing.
 #

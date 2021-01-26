@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.70])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AC_CONFIG_SRCDIR([arch.c])
+AC_CONFIG_SRCDIR([make_malloc.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -17,7 +17,7 @@ AC_PROG_MAKE_SET
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([fcntl.h inttypes.h limits.h paths.h stddef.h stdlib.h string.h strings.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h utime.h])
+AC_CHECK_HEADERS([fcntl.h inttypes.h paths.h strings.h sys/file.h sys/ioctl.h sys/param.h sys/socket.h sys/time.h unistd.h utime.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_OFF_T

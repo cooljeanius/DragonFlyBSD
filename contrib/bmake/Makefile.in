@@ -54,6 +54,8 @@ COPTS.meta.c += -DHAVE_FILEMON_H -I${FILEMON_H:H}
 .PATH:	${srcdir}
 .PATH:	${srcdir}/lst.lib
 
+SUBDIRS = build-aux
+
 OS!= uname -s
 ARCH!= uname -p 2>/dev/null || uname -m
 

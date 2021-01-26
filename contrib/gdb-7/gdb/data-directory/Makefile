@@ -24,7 +24,7 @@ VPATH = $(SYSCALLS_SRCDIR):$(PYTHON_SRCDIR)
 top_srcdir = ..
 top_builddir = ..
 
-prefix = /opt/local
+prefix = /usr/local
 exec_prefix = ${prefix}
 
 datarootdir = ${prefix}/share

@@ -22,7 +22,7 @@ srcdir = .
 top_srcdir = ..
 
 
-prefix = /opt/local
+prefix = /usr/local
 exec_prefix = ${prefix}
 datarootdir = ${prefix}/share
 datadir = ${datarootdir}
@@ -35,29 +35,29 @@ INSTALL_DATA = ${INSTALL} -m 644
 # We use $(mkdir_p).
 # In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
 # "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
-# ${SHELL} /private/var/root/DragonFlyBSD/install-sh does not start with $(SHELL), so we add it.
+# ${SHELL} /Users/ericgallager/Documents/GitHub/DragonFlyBSD/build-aux/install-sh does not start with $(SHELL), so we add it.
 # In automake >= 1.10, $(MKDIR_P) is derived from ${MKDIR_P}, which is defined
 # either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
 # versions, $(mkinstalldirs) and $(install_sh) are unused.
-mkinstalldirs = $(SHELL) ${SHELL} /private/var/root/DragonFlyBSD/install-sh -d
-install_sh = $(SHELL) ${SHELL} /private/var/root/DragonFlyBSD/install-sh
+mkinstalldirs = $(SHELL) ${SHELL} /Users/ericgallager/Documents/GitHub/DragonFlyBSD/build-aux/install-sh -d
+install_sh = $(SHELL) ${SHELL} /Users/ericgallager/Documents/GitHub/DragonFlyBSD/build-aux/install-sh
 MKDIR_P = /opt/local/bin/gmkdir -p
 mkdir_p = $(MKDIR_P)
 
-GMSGFMT_ = /opt/local/bin/msgfmt
-GMSGFMT_no = /opt/local/bin/msgfmt
-GMSGFMT_yes = /opt/local/bin/msgfmt
+GMSGFMT_ = /usr/local/bin/msgfmt
+GMSGFMT_no = /usr/local/bin/msgfmt
+GMSGFMT_yes = /usr/local/bin/msgfmt
 GMSGFMT = $(GMSGFMT_$(USE_MSGCTXT))
-MSGFMT_ = /opt/local/bin/msgfmt
-MSGFMT_no = /opt/local/bin/msgfmt
-MSGFMT_yes = /opt/local/bin/msgfmt
+MSGFMT_ = /usr/local/bin/msgfmt
+MSGFMT_no = /usr/local/bin/msgfmt
+MSGFMT_yes = /usr/local/bin/msgfmt
 MSGFMT = $(MSGFMT_$(USE_MSGCTXT))
-XGETTEXT_ = /opt/local/bin/xgettext
-XGETTEXT_no = /opt/local/bin/xgettext
-XGETTEXT_yes = /opt/local/bin/xgettext
+XGETTEXT_ = /usr/local/bin/xgettext
+XGETTEXT_no = /usr/local/bin/xgettext
+XGETTEXT_yes = /usr/local/bin/xgettext
 XGETTEXT = $(XGETTEXT_$(USE_MSGCTXT))
 MSGMERGE = msgmerge
-MSGMERGE_UPDATE = /opt/local/bin/msgmerge --update
+MSGMERGE_UPDATE = /usr/local/bin/msgmerge --update
 MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter
