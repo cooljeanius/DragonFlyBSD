@@ -43,3 +43,4 @@ libtool
 */*/*/libtool
 usr.sbin/mtree/mtree
 build-aux/Makefile
+Automakefile

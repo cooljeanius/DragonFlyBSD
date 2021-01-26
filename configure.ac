@@ -10,7 +10,7 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 AC_USE_SYSTEM_EXTENSIONS
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 AM_SANITY_CHECK
 AC_SEARCH_LIBS([strerror],[cposix])
@@ -316,7 +316,7 @@ AC_CHECK_FUNCS([__fpending alarm atexit btowc bzero clock_gettime doprnt dup2 \
                 wcwidth])dnl
 
 # Output.
-AC_CONFIG_FILES([build-aux/Makefile po/Makefile.in])
+AC_CONFIG_FILES([Automakefile build-aux/Makefile po/Makefile.in])
 AC_CONFIG_SUBDIRS([contrib/bmake
                    contrib/expat
                    contrib/gdb-7/gdb

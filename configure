@@ -17947,7 +17947,7 @@ then :
 fi
 
 # Output.
-ac_config_files="$ac_config_files build-aux/Makefile po/Makefile.in"
+ac_config_files="$ac_config_files Automakefile build-aux/Makefile po/Makefile.in"
 
 
 
@@ -18703,6 +18703,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
+    "Automakefile") CONFIG_FILES="$CONFIG_FILES Automakefile" ;;
     "build-aux/Makefile") CONFIG_FILES="$CONFIG_FILES build-aux/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
 

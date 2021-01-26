@@ -1,0 +1,4 @@
+ACLOCAL_AMFLAGS = -I m4 --install
+
+SUBDIRS = build-aux po contrib/bmake contrib/expat contrib/gdb-7/gdb \
+  contrib/lvm2/dist contrib/nvi/build contrib/opie contrib/smbfs
