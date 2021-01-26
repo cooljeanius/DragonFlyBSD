@@ -1380,7 +1380,7 @@ Optional Features:
   --enable-server-md4     Use MD4 instead of MD5 for the server
   --disable-user-locking  Disable user locking
   --enable-user-locking=DIR
-                          Put user lock files in DIR /etc/opielocks
+                          Put user lock files in DIR [/etc/opielocks]
   --enable-retype         Ask users to re-type their secret pass phrases
   --enable-su-star-check  Refuse to switch to disabled accounts
   --disable-new-prompts   Use more compatible (but less informative) prompts
@@ -2656,11 +2656,12 @@ ac_config_headers="$ac_config_headers config.h"
 # Check whether --enable-access-file was given.
 if test ${enable_access_file+y}
 then :
-  enableval=$enable_access_file; printf "%s\n" "#define PATH_ACCESS_FILE \"$enable_access_file\"" >>confdefs.h
- echo "Using the access file in $enable_access_file -- don't say we didn't warn you!"
+  enableval=$enable_access_file; printf "%s\n" "#define PATH_ACCESS_FILE \"${enable_access_file}\"" >>confdefs.h
+
+               echo "Using the access file in ${enable_access_file} -- don't say we didn't warn you!"
 fi
 
-ACCESS_FILE="$enable_access_file"
+ACCESS_FILE="${enable_access_file}"
 
 # Check whether --enable-server-md4 was given.
 if test ${enable_server_md4+y}
@@ -2672,27 +2673,25 @@ else $as_nop
 
 fi
 
-
 # Check whether --enable-user-locking was given.
 if test ${enable_user_locking+y}
 then :
   enableval=$enable_user_locking;
 fi
 
-if test "$enable_user_locking" != no;
+if test "x${enable_user_locking}" != "xno";
 then
-  if test -z "$enable_user_locking"
+  if test -z "${enable_user_locking}"
   then
     printf "%s\n" "#define OPIE_LOCK_DIR \"/etc/opielocks\"" >>confdefs.h
 
     LOCK_DIR="/etc/opielocks"
   else
-    printf "%s\n" "#define OPIE_LOCK_DIR \"$enable_user_locking\"" >>confdefs.h
+    printf "%s\n" "#define OPIE_LOCK_DIR \"${enable_user_locking}\"" >>confdefs.h
 
-    LOCK_DIR="$enable_user_locking"
+    LOCK_DIR="${enable_user_locking}"
   fi
 fi
-
 
 # Check whether --enable-retype was given.
 if test ${enable_retype+y}
@@ -2728,30 +2727,30 @@ fi
 if test ${enable_anonymous_ftp+y}
 then :
   enableval=$enable_anonymous_ftp; printf "%s\n" "#define DOANONYMOUS 1" >>confdefs.h
- echo "enabling anonymous FTP support in ftp -- don't say we didn't warn you!"
+  ## (useless line starting with spaces in case line-eating behavior changes)
+echo "enabling anonymous FTP support in ftp -- don't say we didn't warn you!"
 fi
 
 # Check whether --enable-utmp was given.
 if test ${enable_utmp+y}
 then :
   enableval=$enable_utmp; printf "%s\n" "#define DISABLE_UTMP 1" >>confdefs.h
- echo "disabling utmp logging"
+               echo "disabling utmp logging"
 fi
 
 # Check whether --enable-wtmp was given.
 if test ${enable_wtmp+y}
 then :
   enableval=$enable_wtmp; printf "%s\n" "#define DISABLE_WTMP 1" >>confdefs.h
- echo "disabling wtmp logging"
+               echo "disabling wtmp logging"
 fi
 
 # Check whether --enable-opieauto was given.
 if test ${enable_opieauto+y}
 then :
   enableval=$enable_opieauto; printf "%s\n" "#define OPIEAUTO 1" >>confdefs.h
- OPIEAUTO=opieauto; echo "enabling opieauto support"
+               OPIEAUTO=opieauto; echo "enabling opieauto support"
 fi
-
 
 
 
@@ -4279,8 +4278,6 @@ then :
 fi
 
 
-
-
 # Extract the first word of "chown", so it can be a program name with args.
 set dummy chown; ac_word=$2
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -4434,7 +4431,7 @@ else $as_nop
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in /usr/bin /bin /opt/local/bin
+for as_dir in /usr/bin /bin /opt/local/bin /opt/sw/bin /usr/local/bin
 do
   IFS=$as_save_IFS
   case $as_dir in #(((
@@ -4986,38 +4983,38 @@ printf "%s\n" "$result" >&6; }
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the system profile displays the motd" >&5
 printf %s "checking whether the system profile displays the motd... " >&6; }
 result=no
-if test $EXISTS /etc/profile
+if test ${EXISTS} /etc/profile
 then
 	if grep motd /etc/profile >/dev/null 2>/dev/null
 	then
 		result=yes
 	fi
 fi
-if test "$result" = yes
+if test "${result}" = yes
 then
 	printf "%s\n" "#define HAVE_MOTD_IN_PROFILE 1" >>confdefs.h
 
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $result" >&5
-printf "%s\n" "$result" >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: ${result}" >&5
+printf "%s\n" "${result}" >&6; }
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether the system profile checks for mail" >&5
 printf %s "checking whether the system profile checks for mail... " >&6; }
 result=no
-if test $EXISTS /etc/profile
+if test ${EXISTS} /etc/profile
 then
 	if grep 'mail\.' /etc/profile >/dev/null 2>/dev/null
 	then
 		result=yes
 	fi
 fi
-if test "$result" = yes
+if test "${result}" = yes
 then
 	printf "%s\n" "#define HAVE_MAILCHECK_IN_PROFILE 1" >>confdefs.h
 
 fi
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $result" >&5
-printf "%s\n" "$result" >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: ${result}" >&5
+printf "%s\n" "${result}" >&6; }
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for an ANSI C-conforming const" >&5
 printf %s "checking for an ANSI C-conforming const... " >&6; }
@@ -7667,9 +7664,9 @@ fi
 # Munge out LOCALBIN and LOCALMAN in canonical (no bletch) form
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: doing final output now" >&5
 printf "%s\n" "$as_me: doing final output now" >&6;}
+if test -n "${DISPLAY}"; then unset DISPLAY; fi
+if test -n "${EDITOR}"; then unset EDITOR; fi
 ac_config_files="$ac_config_files configure.munger libmissing/Makefile libopie/Makefile Makefile.munge:Makefile.in"
-
-echo "creating confcache header"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -7686,8 +7683,6 @@ cat >confcache <<\_ACEOF
 # following values.
 
 _ACEOF
-
-echo "creating confcache body"
 
 # The following way of writing the cache mishandles newlines in values,
 # but we know of no workaround that is simple, portable, and efficient.
@@ -7735,9 +7730,6 @@ printf "%s\n" "$as_me: WARNING: cache variable $ac_var contains a newline" >&2;}
      t end
      s/^\([^=]*\)=\(.*\)$/\1=${\1=\2}/
      :end' >>confcache
-
-echo "comparing confcache against cache_file"
-
 if diff "$cache_file" confcache >/dev/null 2>&1; then :; else
   if test -w "$cache_file"; then
     if test "x$cache_file" != "x/dev/null"; then
@@ -7768,8 +7760,6 @@ test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
 
 DEFS=-DHAVE_CONFIG_H
 
-echo "handling libobjs"
-
 ac_libobjs=
 ac_ltlibobjs=
 U=
@@ -7786,7 +7776,7 @@ LIBOBJS=$ac_libobjs
 
 LTLIBOBJS=$ac_ltlibobjs
 
-echo "handling config.status"
+
 
 : "${CONFIG_STATUS=./config.status}"
 ac_write_fail=0
@@ -8357,8 +8347,6 @@ cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 _ACEOF
 
 cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
-
-echo "handling CONFIG_FILES"
 
 # Handling of arguments.
 for ac_config_target in $ac_config_targets

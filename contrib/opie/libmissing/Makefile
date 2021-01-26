@@ -13,7 +13,7 @@
 #		Use ar 'cr' instead of 'r'. Renamed realclean to distclean.
 #       Created by cmetz for OPIE 2.3 using old Makefiles as a guide.
 
-OBJS=bogus.o   endutent.o getutline.o pututline.o setutent.o 
+OBJS=bogus.o  lstat.o  endutent.o getutline.o pututline.o setutent.o 
 
 CC=gcc
 CFLAGS=$(CFL) -I.. -I.

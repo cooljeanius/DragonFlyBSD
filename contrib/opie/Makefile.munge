@@ -27,7 +27,7 @@
 #		dependencies on subdir files. Made opietest call silent.
 #		Removed opie-md4, opie-md5, and key aliases. Removed
 #		test target. Make uninstall remove man page aliases.
-#	Modified by cmetz for OPIE 2.22. Removed  from MISSING for
+#	Modified by cmetz for OPIE 2.22. Removed  ${LIBOBJDIR}lstat$U.o from MISSING for
 #		Autoconf target. Re-ordered LFLAGS because some ld's won't
 #		include libmissing properly if it's not at the end.
 #       Modified by cmetz for OPIE 2.21. Added getusershell.o to IRIX
