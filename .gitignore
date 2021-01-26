@@ -44,3 +44,4 @@ libtool
 usr.sbin/mtree/mtree
 build-aux/Makefile
 Automakefile
+po/remove-potcdate.sed
