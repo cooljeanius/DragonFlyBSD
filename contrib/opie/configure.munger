@@ -1,7 +1,8 @@
 prefix=/usr/local
 exec_prefix=${prefix}
 bindir=${exec_prefix}/bin
-mandir=${prefix}/share/man
+datarootdir=${prefix}/share
+mandir=${datarootdir}/man
 
 LOCALBIN=$bindir
 LOCALMAN=$mandir

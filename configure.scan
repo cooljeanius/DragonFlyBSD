@@ -305,6 +305,7 @@ AC_CONFIG_FILES([Makefile
                  bin/sync/Makefile
                  bin/test/Makefile
                  bin/varsym/Makefile
+                 build-aux/Makefile
                  contrib/amd/scripts/Makefile
                  contrib/binutils-2.21/binutils/doc/Makefile
                  contrib/binutils-2.21/gas/doc/Makefile

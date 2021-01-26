@@ -170,8 +170,8 @@ AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 AC_TYPE_UINT32_T
 AC_CHECK_DECLS([sys_siglist])
-if test "x${ac_cv_decl_sys_siglist}" != "xyes"; then
-  test -n "${ac_cv_decl_sys_siglist}" && unset ac_cv_decl_sys_siglist
+if test "x${ac_cv_have_decl_sys_siglist}" != "xyes"; then
+  test -n "${ac_cv_have_decl_sys_siglist}" && unset ac_cv_have_decl_sys_siglist
   AC_CHECK_DECLS([sys_siglist],[],[],[#include <signal.h>
 /* NetBSD declares sys_siglist in unistd.h.  */
 #ifdef HAVE_UNISTD_H

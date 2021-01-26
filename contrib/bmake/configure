@@ -8256,8 +8256,8 @@ fi
 
 printf "%s\n" "#define HAVE_DECL_SYS_SIGLIST $ac_have_decl" >>confdefs.h
 
-if test "x${ac_cv_decl_sys_siglist}" != "xyes"; then
-  test -n "${ac_cv_decl_sys_siglist}" && unset ac_cv_decl_sys_siglist
+if test "x${ac_cv_have_decl_sys_siglist}" != "xyes"; then
+  test -n "${ac_cv_have_decl_sys_siglist}" && unset ac_cv_have_decl_sys_siglist
   ac_fn_c_check_decl "$LINENO" "sys_siglist" "ac_cv_have_decl_sys_siglist" "#include <signal.h>
 /* NetBSD declares sys_siglist in unistd.h.  */
 #ifdef HAVE_UNISTD_H

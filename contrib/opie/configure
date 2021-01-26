@@ -4685,6 +4685,7 @@ do
 	done
 	IFS=" "
 done
+IFS="${save_IFS}"
 printf "%s\n" "#define DEFAULT_PATH \"${default_path}\"" >>confdefs.h
 
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: ${default_path}" >&5
@@ -8940,5 +8941,5 @@ fi
 
 sleep 1
 echo "done with this script; now attempting to run configure.munger"
-test -x ./configure.munger && test -n "${BASHDB}" && test -x "${BASHDB}" && ${BASHDB} ./configure.munger
+(test -x ./configure.munger && test -n "${BASHDB}" && test -x "${BASHDB}" && ${BASHDB} ./configure.munger) || sh configure.munger
 

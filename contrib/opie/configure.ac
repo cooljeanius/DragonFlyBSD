@@ -186,6 +186,7 @@ do
 	done
 	IFS=" "
 done
+IFS="${save_IFS}"
 AC_DEFINE_UNQUOTED([DEFAULT_PATH],["${default_path}"])
 AC_MSG_RESULT([${default_path}])
 
@@ -606,4 +607,4 @@ AC_CONFIG_FILES([configure.munger libmissing/Makefile libopie/Makefile \
 AC_OUTPUT
 sleep 1
 echo "done with this script; now attempting to run configure.munger"
-test -x ./configure.munger && test -n "${BASHDB}" && test -x "${BASHDB}" && ${BASHDB} ./configure.munger
+(test -x ./configure.munger && test -n "${BASHDB}" && test -x "${BASHDB}" && ${BASHDB} ./configure.munger) || sh configure.munger
